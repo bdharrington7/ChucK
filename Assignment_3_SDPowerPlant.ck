@@ -117,7 +117,7 @@ sfx.samples() => sfx.pos;
 0 => int counter; // number to mod to get the beat number, incremented in loop
 16 => int numBeats; // number of beats in a loop
 4 => int measures; // number of measures
-0 => int prog;  // keeping track of how many times we do the loop + fill (4 meas)
+0 => int prog;  // keeping track of how many times we do the loop +fill (4 meas)
 
 0 => int noteIndex; // index for the melody array
 0 => int bassIndex; // for the bass array

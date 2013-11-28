@@ -143,9 +143,11 @@ for (0 => int i; i < sndbuf.cap(); i++){
 0 => int canReset; // prevent endless repositioning if we stay on the same position for a while
 // drum function: 
 fun void drumFor(dur len){
-    t/kick_ptn.cap() => dur resolution; // resolution, must be <= smallest note, div by array size to make even
-    // get the length of the array easier calcs
     Math.min(kick_ptn.cap(), Math.min(snare_ptn.cap(), hh_ptn.cap())) $ int => int al; // smallest array length
+
+    t/al => dur resolution; // resolution, must be <= smallest note, div by array size to make even
+    // get the length of the array easier calcs
+    
     while ( len > 0::second ) {
         // index is the ((accrued / ((wLen/al)::second)) $ int) % al
         // ((wLen/al)::second)) is the fraction of the array we've been through,
@@ -180,12 +182,12 @@ fun void drumFor(dur len){
             }
             
             if ( (hh_ptn[beat] & 0x4) > 0){
-                if (debug) { <<< "===Click", hh_ptn[beat] & 4 >>>; }
-                0 => sndbuf [ inst[ hc ] ].pos;
+                if (debug) { <<< "===Lo Click", hh_ptn[beat] & 4 >>>; }
+                0 => sndbuf [ inst[ lc ] ].pos;
             }
             
             if ( (hh_ptn[beat] & 0x8) > 0){
-                if (debug) { <<< "===Click", hh_ptn[beat] & 4 >>>; }
+                if (debug) { <<< "===Hi Click", hh_ptn[beat] & 8 >>>; }
                 0 => sndbuf [ inst[ hc ] ].pos;
             }
         }
