@@ -1,5 +1,9 @@
 // Assignment 4: SD Power Plant
-
+/*  Title: Elevator Lounge
+    Author: Brian Harrington
+    Assignment: 4 - Functions
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/assignment4
+*/
 // requirements:
 // 30 seconds
 // only midi notes in Eb Mixolydian mode: 51, 53, 55, 56, 58, 60, 61, 63

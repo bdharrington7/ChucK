@@ -1,4 +1,9 @@
 // Assignment 3: SD power plant
+/*  Title: Campfire Pop Native
+    Author: Brian Harrington
+    Assignment: 3 - Sound file manipulation
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/assignment-3-sdpowerplant
+*/
 // requirements: array of strings to load sound files
 // reverse a sound at least once
 // use modulo

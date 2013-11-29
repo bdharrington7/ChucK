@@ -1,4 +1,9 @@
 // Assignment 5: San Diego Power Plant
+/*  Title: The Generators
+    Author: Brian Harrington
+    Assignment: 5 - Unit Generators
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-5-the-generators
+*/
 // Requirements: 30 second comp using unit generators
 // STK instruments
 // only Db Phrygian: [49, 50, 52, 54, 56, 57, 59, 61]

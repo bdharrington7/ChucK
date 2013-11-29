@@ -1,3 +1,9 @@
+/*  Title: The Basics
+    Author: Brian Harrington
+    Assignment: 1 - Basics, Sound waves, and ChucK programming
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/assignment1-sandiegopowerplant
+*/
+
 <<< "Assignment_1_SanDiegoPowerPlant" >>>;
 
 // using two types of oscillators

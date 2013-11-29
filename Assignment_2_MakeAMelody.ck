@@ -1,3 +1,9 @@
+/*  Title: Make a Melody
+    Author: Brian Harrington
+    Assignment: 2 - Libraries and arrays
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/assignment-2-makeamelody
+*/
+
 <<< "Assignment 2 - San Diego Power Plant" >>>;
 
 TriOsc so => Pan2 p => dac; // bass oscillator
