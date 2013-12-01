@@ -7,18 +7,18 @@
 
 Machine.add(me.dir() + "/drums.ck:1:1") => int drumID;
 
-10::second => now;
+5::second => now;
 
-Machine.add(me.dir() + "/bass.ck") => int bassID;
+Machine.add(me.dir() + "/bass.ck:1:1") => int bassID;
 
-10::second => now;
+5::second => now;
 
-Machine.add(me.dir() + "/flute.ck") => int fluteID;
-Machine.add(me.dir() + "/piano.ck") => int pianoID;
+Machine.add(me.dir() + "/melody.ck") => int melodyID;
+Machine.add(me.dir() + "/accompany.ck") => int accompanyID;
 
 10::second => now;
 
 Machine.remove(drumID);
 Machine.remove(bassID);
-Machine.remove(fluteID);
-Machine.remove(pianoID);
+Machine.remove(melodyID);
+Machine.remove(accompanyID);

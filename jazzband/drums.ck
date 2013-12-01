@@ -5,17 +5,17 @@
     Soundcloud link: TODO: link
 */
 
-
+"DRUMS:" => string section;
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-2 => track; // TODO: remove this override
+1 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< "invalid track (", track, ") exiting" >>>;
     me.exit();
 }
 
-Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0
+Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
 1 => debug; // TODO: remove this override
 
 0.625 * 4 => float wLen; // quarter note is 0.625, wLen is whole note length
@@ -31,7 +31,7 @@ dur wh; //ole
 // dur dq; // (quarter + eighth)
 // dur de; // (eighth + sixteenth)
 // dur ds; // (sixteenth + thirtysecond)
-if (debug) { <<< "Setting note durations: whole note is", wLen, "seconds" >>>; }
+if (debug) { <<< section, "Setting note durations: whole note is", wLen, "seconds" >>>; }
 wLen::second => wh; //ole, we only need this duration for drums
     // wh / 2 => ha; //lf
     // wh / 4 => qu; //arter
@@ -93,17 +93,18 @@ NRev rev;
 Gain masterL => rev => dac.left;  // need two gains since it negates any pans through it
 Gain masterR => rev => dac.right; // pass both through the same reverb
 
-0.2 => rev.mix;
+0.05 => rev.mix;
+0.7 => masterR.gain => masterL.gain;
 
 for (0 => int i; i < inst.cap(); i++){
-    if (debug) { <<< "initialize SndBuf and Pan2 for", inst[i] >>>; }
+    if (debug) { <<< section, "initialize SndBuf and Pan2 for", inst[i] >>>; }
     new SndBuf @=> sb[inst[i]];
     new Pan2 @=> pan[inst[i]];
     sb[inst[i]] => pan[inst[i]];
 }
 
 for (0 => int i; i < inst.cap(); i++){
-    if (debug) { <<< "chuck pan", i, "to master" >>>; }
+    if (debug) { <<< section, "chuck pan", i, "to master" >>>; }
     // chuck each side of the pan to the corresponding master channel
     pan[inst[i]].left => masterL;
     pan[inst[i]].right => masterR;
@@ -124,13 +125,13 @@ sb[hho].samples() => sb[hho].pos;
 
 
 // set positions and volumes for drums as they won't change
-if (debug) { <<< "setting drum gains" >>>; }
+if (debug) { <<< section, "setting gains" >>>; }
 1 => sb[ kick ].gain;
 1 => sb[ snare ].gain;
 0.25 => sb[ hh ].gain;
 0.25 => sb[ hho ].gain;
 
-if (debug) { <<< "setting drum pans" >>>; }
+if (debug) { <<< section, "setting pans" >>>; }
 -1 => pan[ hh ].pan => pan[ hho ].pan;
 0.5 => pan[ snare ].pan;
 
@@ -138,28 +139,28 @@ int kick_ptn[];
 int snare_ptn[];
 int hh_ptn[];
 if (track == 1){ // intro / main?
-    if (debug) { <<< "setting up track 1" >>>; }
+    if (debug) { <<< section, "setting up track 1" >>>; }
 //   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
     [1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0] @=> kick_ptn;
     [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0] @=> snare_ptn;
     [1, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1] @=> hh_ptn;
 }
 else if (track == 2){ // second / verse?
-    if (debug) { <<< "setting up track 2" >>>; }  // 6/4 time
+    if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time
 //   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
     [1, 0, 0, 0, 0, 1] @=> kick_ptn;
     [0, 0, 0, 1, 0, 0] @=> snare_ptn;
     [1, 1, 1, 1, 1, 2] @=> hh_ptn;
 }
 else {
-    <<< "Kick pattern not set, aborting" >>>;
+    <<< section, "Kick pattern not set, aborting" >>>;
     me.exit();
 }
 
 /* Main loop where we play everything 
 */
 // get the length of the array easier calcs
-if (debug) { <<< "Getting ready to play loop" >>>; }
+if (debug) { <<< section, "Getting ready to play loop" >>>; }
 Math.min(kick_ptn.cap(), Math.min(snare_ptn.cap(), hh_ptn.cap())) $ int => int al; // smallest array length
 wh/al => dur resolution; // resolution, must be <= smallest note, div by array size to make even
 0::second => dur accrued; // total time accrued
@@ -221,19 +222,5 @@ while ( true ) {
     accrued + resolution => accrued;
 }
 
-// while(i < 3){
-//     <<<" # arguments:">>>;
-//     <<< me.args() >>>;
-//     1::second => now;
-//     <<< "printed:" >>>;
-//     for (0 => int i; i < me.args(); i++){
-//         <<< me.arg(i) >>>;
-//         <<< Std.atoi(me.arg(i)) >>>;// prints 0 when can't convert
-//     }
-//     1::second => now;
-//     <<< "test:">>>;
-//     <<< Std.atoi("-1") >>>;
-//     <<< Std.atoi("bar") >>>;
-//     <<< Std.atoi("1") >>>;
-// }
+
 
