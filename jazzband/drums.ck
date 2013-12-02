@@ -8,7 +8,7 @@
 "DRUMS:" => string section;
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-1 => track; // TODO: remove this override
+//1 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< "invalid track (", track, ") exiting" >>>;
@@ -16,7 +16,7 @@ if (track <= 0){
 }
 
 Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
-1 => debug; // TODO: remove this override
+//1 => debug; // TODO: remove this override
 
 0.625 * 4 => float wLen; // quarter note is 0.625, wLen is whole note length
 
@@ -141,9 +141,9 @@ int hh_ptn[];
 if (track == 1){ // intro / main?
     if (debug) { <<< section, "setting up track 1" >>>; }
 //   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
-    [1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0] @=> kick_ptn;
-    [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0] @=> snare_ptn;
-    [1, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1] @=> hh_ptn;
+    [1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> kick_ptn;
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0] @=> snare_ptn;
+    [2, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> hh_ptn;
 }
 else if (track == 2){ // second / verse?
     if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time

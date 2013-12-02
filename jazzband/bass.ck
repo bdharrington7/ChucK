@@ -8,15 +8,15 @@
 "BASS:" => string section;
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-1 => track; // TODO: remove this override
+//1 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< section, "invalid track (", track, ") exiting" >>>;
     me.exit();
 }
-<<< me.args() >>>;
+
 Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
-1 => debug; // TODO: remove this override
+//1 => debug; // TODO: remove this override
 // 1 => int debug;
 
 [46, 48, 49, 51, 53, 54, 56, 58] @=> int scale[]; // (the Bb Aeolian mode)
@@ -82,6 +82,9 @@ if (debug) {
 
 // setup sound chain
 TriOsc osc1 => dac;
+VoicForm sit =>  dac;
+//0.05 => rev.mix;
+"ooo" => sit.phoneme;
 
 int notes[]; // note array for melody keys
 dur durs[];  // durations for each note
@@ -89,10 +92,10 @@ float gains[]; // gains for each note
 
 if (track == 1){ // intro / main?
     if (debug) { <<< section, "setting up track 1" >>>; }
-//   1        2       3      4       5       6       7       8       9       10      11      12     13     14     15     16 
-    [sc[20], sc[14], sc[15], sc[20], sc[14], sc[15], sc[20], sc[14]] @=> notes;
-    [    qu,     ei,     ei,     qu,     qu,     qu,     qu,     qu] @=> durs;
-    [    1.,     1.,     1.,     1.,     1.,     1.,     1.,     1.] @=> gains;
+//   1        2       3   4       5    6       7   8       9    10  11 12     13     14     15     16 
+    [sc[15], sc[15], sc[8], sc[15],   0, sc[15],   0, sc[15],   0, sc[14], sc[15], sc[17], sc[15], sc[14]] @=> notes;
+    [    si,     si,    ei,     si,  si,     si,   si,     si,   si,   ei,     si,     si,     si,     si ] @=> durs;
+    [    1.,     1.,    1.,     1.,   1.,    1.,   1.,     1.,   1.,   1.,     1.,    1.,      1.,    1. ] @=> gains;
 }
 else if (track == 2){ // second / verse?
     if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time
@@ -115,10 +118,19 @@ while(true){
 
 	// set the melodic note
     if (durNote <= 0::second) { // if the note ran out of time
+        //sit.clear(1);
         notes[ noteIndex % notes.cap() ] => int note;
         if (debug) <<< section, "Changing note to", note >>>;
         Std.mtof(note) => osc1.freq;
+        Std.mtof(note) => sit.freq;
         gains[ noteIndex % gains.cap() ] => osc1.gain;
+        if (gains[ noteIndex % gains.cap() ] > 0.){
+             gains[ noteIndex % gains.cap() ]/2 => sit.gain;
+             sit.noteOn(1);
+        }
+        else {
+            sit.noteOff(1);
+        }
         durs[ noteIndex % durs.cap() ] => durNote;
         
         noteIndex++; // increment the counter for next pass

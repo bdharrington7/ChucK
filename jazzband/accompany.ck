@@ -73,7 +73,7 @@ while (true){
 	12 -=> currRoot; // decrement currRoot by 12
 }
 
-6 => int octaves;
+8 => int octaves;
 int sc[ octaves * (scale.cap()-1) ]; // new array to hold the whole scale: num octaves * (the scale size - the last note because it's an octave)
 0 => int scIndex;
 repeat (octaves){ // build up 6 octaves 
@@ -180,10 +180,11 @@ float gains[]; // gains for each note
 if (track == 1){ // intro / main?
     if (debug) { <<< section, "setting up track 1" >>>; }
 //   1        2       3      4       5       6       7       8       9       10      11      12     13     14     15     16 
-    [[sc[30], sc[32], sc[35]], [sc[32], sc[35], sc[37]], [sc[35], sc[37], sc[39]]] @=> notes;
-    [    wh,     wh,     ei,     qu,     qu,     qu,     qu,     qu] @=> durs;
-    [    .5    ] @=> gains;
-    spork ~ chord();
+    [[sc[36], sc[41], sc[43]], [sc[36], sc[42], sc[43]]] @=> notes;
+    [    wh*2 ] @=> durs;
+    [    .4    ] @=> gains;
+    //spork ~ chord();
+    spork ~ arpeggiate();
 }
 else if (track == 2){ // second / verse?
     if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time

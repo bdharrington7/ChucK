@@ -5,18 +5,30 @@
     Soundcloud link: TODO: link
 */
 
-Machine.add(me.dir() + "/drums.ck:1:1") => int drumID;
+Machine.add(me.dir() + "/drums.ck:1") => int drumID;
+
+//5::second => now;
+
+Machine.add(me.dir() + "/bass.ck:1") => int bassID;
 
 5::second => now;
 
-Machine.add(me.dir() + "/bass.ck:1:1") => int bassID;
+Machine.add(me.dir() + "/melody.ck:1:1") => int melodyID;
 
 5::second => now;
 
-Machine.add(me.dir() + "/melody.ck") => int melodyID;
-Machine.add(me.dir() + "/accompany.ck") => int accompanyID;
+Machine.replace(melodyID, me.dir() + "/melody.ck:2:1") => melodyID;
 
-10::second => now;
+5::second => now;
+
+Machine.remove(melodyID);
+Machine.add(me.dir() + "/accompany.ck:1") => int accompanyID;
+
+5::second => now;
+
+Machine.replace(melodyID, me.dir() + "/accompany.ck:2") => melodyID;
+
+5::second => now;
 
 Machine.remove(drumID);
 Machine.remove(bassID);
