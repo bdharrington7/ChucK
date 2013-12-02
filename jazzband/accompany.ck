@@ -2,38 +2,20 @@
 /*  Title: SD Shredded Powerplant
     Author: Anonymous
     Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: TODO: link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-6
 */
 
 "ACCOMPANY:" => string section;
-// BlowBotl blow[3]; 
 
-// for(0 => int i; i < blow.cap(); i++){
-// 	new BlowBotl @=> blow[i];
-// 	blow[i] => dac;
-// 	blow[i].noiseGain(0.05);
-// }
-
-
-// while (true){
-// 	440 => blow[0].freq;
-// 	blow[0].noteOn(1);
-// 	0.5::second => now;
-// 	660 => blow[0].freq;
-// 	0.5::second => now;
-// }
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-1 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< section, "invalid track (", track, ") exiting" >>>;
     me.exit();
 }
-<<< me.args() >>>;
 Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
-1 => debug; // TODO: remove this override
-// 1 => int debug;
+
 
 [46, 48, 49, 51, 53, 54, 56, 58] @=> int scale[]; // (the Bb Aeolian mode)
 
@@ -97,7 +79,6 @@ if (debug) {
 }
 
 // setup sound chain
-//TriOsc osc1 => dac;
 BlowBotl acc[3];
 Pan2 pan[3];
 NRev rev;
@@ -120,6 +101,9 @@ for (0 => int i; i < pan.cap(); i++){
 }
 masterL => dac.left;
 masterR => dac.right;
+
+-0.5 => pan[0].pan;
+0.5 => pan[2].pan;
 
 // functions to set the different parts of the accompaniment 
 fun void setNotes(int n[]){
@@ -182,16 +166,16 @@ if (track == 1){ // intro / main?
 //   1        2       3      4       5       6       7       8       9       10      11      12     13     14     15     16 
     [[sc[36], sc[41], sc[43]], [sc[36], sc[42], sc[43]]] @=> notes;
     [    wh*2 ] @=> durs;
-    [    .4    ] @=> gains;
-    //spork ~ chord();
-    spork ~ arpeggiate();
+    [    .2    ] @=> gains;
+    spork ~ chord();
+    spork ~ increaseVibrato();
 }
 else if (track == 2){ // second / verse?
     if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time
 //   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
-    // [1, 0, 0, 0, 0, 1] @=> notes;
-    // [0, 0, 0, 1, 0, 0] @=> durs;
-    // [1, 1, 1, 1, 1, 2] @=> gains;
+    [[sc[36], sc[41], sc[43]], [sc[36], sc[42], sc[43]]] @=> notes;
+    [    wh*2 ] @=> durs;
+    [    .4    ] @=> gains;
     spork ~ arpeggiate();
 }
 else {
@@ -228,6 +212,23 @@ fun void arpeggiate(){
 	}
 }
 
+0. => float vibGain; // gain for vibrato
+
+fun void increaseVibrato(){
+	
+	while (true){
+		if(vibGain < .99 ){
+			0.1 +=> vibGain;
+			if (debug) { <<< section, "Vibrato Gain is", vibGain >>>;}
+			for (0 => int i; i < acc.cap(); i++){
+				vibGain => acc[i].vibratoGain;
+			}
+			
+		}
+		0.2::second => now;
+	}
+}
+
 fun void chord(){
 	// vars for the while loop
 	th => dur resolution;    // resolution for the while loop's time passing
@@ -239,6 +240,7 @@ fun void chord(){
 		// set the melodic note
 	    if (durNote <= 0::second) { // if the note ran out of time
 	    	setNoteOnOff(-1.);
+	    	0. => vibGain;
 	        setNotes(notes[ noteIndex % notes.cap() ]);
 	        setGain(gains[ noteIndex % gains.cap() ]);
 	        durs[ noteIndex % durs.cap() ] => durNote;

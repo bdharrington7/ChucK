@@ -2,21 +2,18 @@
 /*  Title: SD Shredded Powerplant
     Author: Anonymous
     Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: TODO: link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-6
 */
 
 "MELODY:" => string section;
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-//2 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< section, "invalid track (", track, ") exiting" >>>;
     me.exit();
 }
 Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
-//1 => debug; // TODO: remove this override
-// 1 => int debug;
 
 [46, 48, 49, 51, 53, 54, 56, 58] @=> int scale[]; // (the Bb Aeolian mode)
 

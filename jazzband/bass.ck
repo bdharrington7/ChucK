@@ -2,13 +2,12 @@
 /*  Title: SD Shredded Powerplant
     Author: Anonymous
     Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: TODO: link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-6
 */
 
 "BASS:" => string section;
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-//1 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< section, "invalid track (", track, ") exiting" >>>;
@@ -16,8 +15,6 @@ if (track <= 0){
 }
 
 Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
-//1 => debug; // TODO: remove this override
-// 1 => int debug;
 
 [46, 48, 49, 51, 53, 54, 56, 58] @=> int scale[]; // (the Bb Aeolian mode)
 
@@ -95,14 +92,7 @@ if (track == 1){ // intro / main?
 //   1        2       3   4       5    6       7   8       9    10  11 12     13     14     15     16 
     [sc[15], sc[15], sc[8], sc[15],   0, sc[15],   0, sc[15],   0, sc[14], sc[15], sc[17], sc[15], sc[14]] @=> notes;
     [    si,     si,    ei,     si,  si,     si,   si,     si,   si,   ei,     si,     si,     si,     si ] @=> durs;
-    [    1.,     1.,    1.,     1.,   1.,    1.,   1.,     1.,   1.,   1.,     1.,    1.,      1.,    1. ] @=> gains;
-}
-else if (track == 2){ // second / verse?
-    if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time
-//   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
-    // [1, 0, 0, 0, 0, 1] @=> notes;
-    // [0, 0, 0, 1, 0, 0] @=> durs;
-    // [1, 1, 1, 1, 1, 2] @=> gains;
+    [    1. ] @=> gains; // only need one since it doesn't change
 }
 else {
     <<< section, "Pattern not set, aborting" >>>;

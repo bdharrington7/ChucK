@@ -2,13 +2,12 @@
 /*  Title: SD Shredded Powerplant
     Author: Anonymous
     Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: TODO: link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-6
 */
 
 "DRUMS:" => string section;
 
 Std.atoi(me.arg(0)) => int track; // get the drum track we want to play
-//1 => track; // TODO: remove this override
 
 if (track <= 0){
     <<< "invalid track (", track, ") exiting" >>>;
@@ -16,34 +15,12 @@ if (track <= 0){
 }
 
 Std.atoi(me.arg(1)) => int debug; // debug flag that can be set when this file is loaded, defaults to 0, always last flag
-//1 => debug; // TODO: remove this override
 
 0.625 * 4 => float wLen; // quarter note is 0.625, wLen is whole note length
 
 dur wh; //ole
-// dur ha; //lf
-// dur qu; //arter
-// dur ei; //ghth
-// dur si; //xteenth
-// dur th; //irtysecond
-// dur dw; // dotted whole == whole + half
-// dur dh; // (half + quarter)
-// dur dq; // (quarter + eighth)
-// dur de; // (eighth + sixteenth)
-// dur ds; // (sixteenth + thirtysecond)
 if (debug) { <<< section, "Setting note durations: whole note is", wLen, "seconds" >>>; }
 wLen::second => wh; //ole, we only need this duration for drums
-    // wh / 2 => ha; //lf
-    // wh / 4 => qu; //arter
-    // wh / 8 => ei; //ghth
-    // wh / 16 => si; //xteenth
-    // wh / 32 => th; //irtysecond
-    // wh + ha => dw; // dotted notes:
-    // ha + qu => dh;
-    // qu + ei => dq;
-    // ei + si => de;
-    // si + th => ds;
-
 
 
 // load filenames, have to go to parent, then into audio dir
@@ -146,15 +123,33 @@ if (track == 1){ // intro / main?
     [2, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> hh_ptn;
 }
 else if (track == 2){ // second / verse?
-    if (debug) { <<< section, "setting up track 2" >>>; }  // 6/4 time
-//   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
-    [1, 0, 0, 0, 0, 1] @=> kick_ptn;
-    [0, 0, 0, 1, 0, 0] @=> snare_ptn;
-    [1, 1, 1, 1, 1, 2] @=> hh_ptn;
+    if (debug) { <<< section, "setting up track 2" >>>; }  // this is where we fade out
+    //   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
+    [1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> kick_ptn;
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0] @=> snare_ptn;
+    [2, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> hh_ptn;
+    spork ~ fadeOut();
 }
 else {
     <<< section, "Kick pattern not set, aborting" >>>;
     me.exit();
+}
+
+fun void fadeOut(){
+    masterR.gain() => float begGain;
+    while (true){
+        if (debug) { <<< section, "Lowering master gain to", begGain >>>;}
+        if (begGain > 0.05){
+            0.05 -=> begGain;
+        }
+        else {
+            0 => begGain;
+        }
+        
+        begGain => masterR.gain => masterL.gain;
+        0.2::second => now;
+    }
+
 }
 
 /* Main loop where we play everything 

@@ -2,7 +2,7 @@
 /*  Title: SD Shredded Powerplant
     Author: Anonymous
     Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: TODO: link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-6
 */
 
 Machine.add(me.dir() + "/drums.ck:1") => int drumID;
@@ -13,24 +13,29 @@ Machine.add(me.dir() + "/bass.ck:1") => int bassID;
 
 5::second => now;
 
-Machine.add(me.dir() + "/melody.ck:1:1") => int melodyID;
+Machine.add(me.dir() + "/melody.ck:1") => int melodyID;
 
 5::second => now;
 
-Machine.replace(melodyID, me.dir() + "/melody.ck:2:1") => melodyID;
+Machine.replace(melodyID, me.dir() + "/melody.ck:2") => melodyID;
 
 5::second => now;
 
 Machine.remove(melodyID);
 Machine.add(me.dir() + "/accompany.ck:1") => int accompanyID;
 
-5::second => now;
+10::second => now;
 
-Machine.replace(melodyID, me.dir() + "/accompany.ck:2") => melodyID;
+Machine.replace(accompanyID, me.dir() + "/accompany.ck:2") => accompanyID;
+
+10::second => now;
+
+Machine.remove(accompanyID);
+Machine.remove(bassID);
+Machine.replace (drumID, me.dir() + "/drums.ck:2");
+Machine.add(me.dir() + "/melody.ck:1") => melodyID;
 
 5::second => now;
 
 Machine.remove(drumID);
-Machine.remove(bassID);
 Machine.remove(melodyID);
-Machine.remove(accompanyID);
