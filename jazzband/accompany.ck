@@ -1,8 +1,8 @@
 // accompany.ck
 /*  Title: SD Shredded Powerplant
-    Author: Anonymous
+    Author: Brian Harrington
     Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-6
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-6-concurrent-schreduler
 */
 
 "ACCOMPANY:" => string section;
