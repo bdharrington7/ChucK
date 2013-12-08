@@ -1,17 +1,24 @@
 // score.ck
+/*  Title: Classy San Diego Powerplant
+    Author: Anonymous
+    Assignment: 7 - Classes and Objects
+    Soundcloud link: TODO add link
+*/
 // on the fly drumming with global BPM conducting
 BPM tempo;
 tempo.tempo(120.0);
 tempo.setDebugOn();
 
-Machine.add(me.dir()+"/kick.ck") => int kickID;
-8.0 * tempo.qu => now;
+// Machine.add(me.dir()+"/kick.ck") => int kickID;
+// 8.0 * tempo.qu => now;
 
-Machine.add(me.dir()+"/snare.ck") => int snareID;
-8.0 * tempo.qu => now;
+// Machine.add(me.dir()+"/snare.ck") => int snareID;
+// 8.0 * tempo.qu => now;
 
-Machine.add(me.dir()+"/hat.ck") => int hatID;
-Machine.add(me.dir()+"/cowbell.ck") => int cowID;
+// Machine.add(me.dir()+"/hat.ck") => int hatID;
+// Machine.add(me.dir()+"/cowbell.ck") => int cowID;
+// 8.0 * tempo.qu => now;
+Machine.add(me.dir() + "/drums.ck");
 8.0 * tempo.qu => now;
 
 Machine.add(me.dir()+"/clap.ck") => int clapID;

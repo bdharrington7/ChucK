@@ -1,4 +1,9 @@
 // hat.ck
+/*  Title: Classy San Diego Powerplant
+    Author: Anonymous
+    Assignment: 7 - Classes and Objects
+    Soundcloud link: TODO add link
+*/
 // on the fly drumming with global BPM conducting
 SndBuf hat => dac;
 me.dir(-1)+"/audio/hihat_02.wav" => hat.read;

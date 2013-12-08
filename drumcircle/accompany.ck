@@ -1,8 +1,8 @@
 // accompany.ck
-/*  Title: SD Shredded Powerplant
-    Author: Brian Harrington
-    Assignment: 6 - threading (shredding) and concurrency
-    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-6-concurrent-schreduler
+/*  Title: Classy San Diego Powerplant
+    Author: Anonymous
+    Assignment: 7 - Classes and Objects
+    Soundcloud link: TODO add link
 */
 
 "ACCOMPANY:" => string section;
