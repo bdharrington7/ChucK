@@ -4,38 +4,66 @@
     Assignment: 7 - Classes and Objects
     Soundcloud link: TODO add link
 */
+// on the fly drumming with global BPM conducting
+BPM tempo;
+Drums drums;
+Simple sim;
+Debug db;
+db.setGlobalDebug(1);
+<<< "debug flag is", db.flag >>>;
+tempo.setQuarterNote(0.625);
+tempo.setDebugOn();
+me.dir() => string dir;
 
-Machine.add(me.dir() + "/drums.ck:1") => int drumID;
+[48, 50, 52, 53, 55, 57, 59, 60] @=> int scaleCIonian[];
+Scale s;
+s.setDebugOn();
+s.setScale(scaleCIonian);
+s.setBassRoot(17);
+s.setMelodyRoot(38);
 
-//5::second => now;
+// Machine.add(me.dir()+"/kick.ck") => int kickID;
+// 8.0 * tempo.qu => now;
 
-Machine.add(me.dir() + "/bass.ck:1") => int bassID;
+// Machine.add(me.dir()+"/snare.ck") => int snareID;
+// 8.0 * tempo.qu => now;
 
-5::second => now;
+// Machine.add(me.dir()+"/hat.ck") => int hatID;
+// Machine.add(me.dir()+"/cowbell.ck") => int cowID;
+// 8.0 * tempo.qu => now;
 
-Machine.add(me.dir() + "/melody.ck:1") => int melodyID;
+//8.0 * tempo.qu => now;
 
-5::second => now;
+Machine.add(me.dir()+"/bass.ck:1:1") => int bassID;
+drums.playTrack(1);
+sim.play("F6");
+8.0 * tempo.qu => now;
 
-Machine.replace(melodyID, me.dir() + "/melody.ck:2") => melodyID;
+//<<< "Set tempo to 80BPM" >>>;  // let's not and say we did
+//drums.reset();
+//s.setRoot(22); 
+//Machine.replace(drumsID, me.dir()+"/drums.ck:1:1") => drumsID;
+//Machine.add(dir + "/Simple-pitch.ck");
+8.0 * tempo.qu => now;
 
-5::second => now;
+//<<< "Now set tempo to 160BPM" >>>;
+//160.0 => newtempo;
+//tempo.setBPM(newtempo);
+//s.setRoot(23);
+8.0 * tempo.qu => now;
 
-Machine.remove(melodyID);
-Machine.add(me.dir() + "/accompany.ck:1") => int accompanyID;
+/* if you want to run OTFBPM to change
+// tempo as these all run, then comment
+// out the lines below   */
 
-10::second => now;
+// <<< "Gradually decrease tempo" >>>;
+// while (newtempo > 60.0) {
+//     newtempo - 20 => newtempo;
+//     tempo.setBPM(newtempo);
+//     <<< "tempo = ", newtempo >>>;
+//     8.0 * tempo.qu => now;
+// }
 
-Machine.replace(accompanyID, me.dir() + "/accompany.ck:2") => accompanyID;
+//Machine.remove(drumsID);
+//Machine.remove(bassID);
 
-10::second => now;
-
-Machine.remove(accompanyID);
-Machine.remove(bassID);
-Machine.replace (drumID, me.dir() + "/drums.ck:2");
-Machine.add(me.dir() + "/melody.ck:1") => melodyID;
-
-5::second => now;
-
-Machine.remove(drumID);
-Machine.remove(melodyID);

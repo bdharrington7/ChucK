@@ -11,7 +11,8 @@ public class Scale
 	"SCALE" => string section;
 	// new array to hold the whole scale: num octaves * (the scale size - the last note because it's an octave)
 	static int sc[]; // full scale
-	static int root; // root note
+	static int bassRoot; // root note
+	static int melodyRoot;
 
 	0 => int debug;
 
@@ -20,9 +21,13 @@ public class Scale
 		1 => debug;
 	}
 
-	fun void setRoot(int rt)
+	fun void setBassRoot(int rt)
 	{
-		rt => root;
+		rt => bassRoot;
+	}
+
+	fun void setMelodyRoot(int rt){
+		rt => melodyRoot;
 	}
 
 	/* sets and builds the whole scale based on the array passed in */
@@ -30,7 +35,7 @@ public class Scale
 	{
 		// build up the scale to a fuller one instead of just 8 notes
 		// find the lowest root note above 0
-		scale[0] => int currRoot => root;
+		scale[0] => int currRoot;
 		while (true){
 			if (currRoot - 12 < 0){
 				break; // we're at the lowest note for this scale
