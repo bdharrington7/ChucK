@@ -5,7 +5,6 @@
     Soundcloud link: TODO add link
 */
 
-// SOMETHING HERE NEXT WEEK!
 // Add all classes here!
 me.dir() => string dir;
 // our conductor/beat-timer class
@@ -15,9 +14,12 @@ Machine.add(dir + "/Debug.ck");
 
 
 // load up the classes first
-Machine.add(dir + "/Simple-pitch.ck");
-Machine.add(dir + "/drums.ck:1");
 Machine.add(dir + "/ExtraBass.ck");
-Machine.add(dir + "/score2.ck");
+Machine.add(dir + "/MelodyInstr.ck");
+Machine.add(dir + "/bass.ck");
+Machine.add(dir + "/Simple-pitch.ck");
+Machine.add(dir + "/drums.ck:1"); 
+Machine.add(dir + "/melody.ck");
+Machine.add(dir + "/score.ck");
 
 

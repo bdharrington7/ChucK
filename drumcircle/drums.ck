@@ -101,8 +101,8 @@ public class Drums{
 
     // set positions and volumes for drums as they won't change
     if (debug) { <<< section, "setting gains" >>>; }
-    1 => sb[ kick ].gain;
-    1 => sb[ snare ].gain;
+    .6 => sb[ kick ].gain;
+    1.3 => sb[ snare ].gain;
     0.25 => sb[ hh ].gain;
     0.25 => sb[ hho ].gain;
 

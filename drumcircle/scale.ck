@@ -23,10 +23,12 @@ public class Scale
 
 	fun void setBassRoot(int rt)
 	{
+		if (debug) { <<< "Setting bass root to", rt >>>;}
 		rt => bassRoot;
 	}
 
 	fun void setMelodyRoot(int rt){
+		if (debug) { <<< "Setting melody root to", rt >>>;}
 		rt => melodyRoot;
 	}
 

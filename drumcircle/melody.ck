@@ -4,38 +4,43 @@
     Assignment: 7 - Classes and Objects
     Soundcloud link: TODO add link
 */
-public class Bass
+public class Melody
 {
     BPM tempo;
     Scale scale;
     Debug db;
 
-    "BASS:" => string section;
-
+    "MELODY:" => string section;
+    <<< section, "loaded" >>>;
     // setup sound chain
-    TriOsc osc1 => dac;
-    ExtraBass vox => dac;
+    // TriOsc osc1 => dac;
+    MelodyInstr vox => NRev rev => dac;
+    0.05 => rev.mix;
 
 
     int noteOffsets[]; // note array for melody keys
     string durs[];  // durations for each note
     float gains[]; // gains for each note
-    int play; // flag to play while loop
-    int debug; // local debug flag
+    int play;   // flag to continue playing the while loop
+    int debug;
+
+    fun void stop(){
+        0 => play;
+    }
 
     fun void playTrack(int track){
         db.flag => debug;
-        1 => play;
+        <<< section, "debug flag is", debug >>>;
         if (track <= 0){
             <<< section, "invalid track (", track, ") exiting" >>>;
             me.exit();
         }
+        1 => play;
         if (track == 1){ // intro / main?
             if (debug) { <<< section, "setting up track 1" >>>; }
-        //            1            2       3   4                 5    6                 7          8             9        10         11 12            13            14           15            16 
-            [0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 9, 12, 9, 5, 9, 12, 9, 5, -1, 6, -1, 6, -1, 6, -1, 6] @=> noteOffsets;
-            [    "si"] @=> durs;
-            [    .7 ] @=> gains; // only need one since it doesn't change
+            [ 3, 5, 7, 5, 7] @=> noteOffsets;
+            [    "si" ] @=> durs;
+            [    1. ] @=> gains; // only need one since it doesn't change
             spork ~ playLoop();
         }
         else {
@@ -55,11 +60,11 @@ public class Bass
         	// set the melodic note
             if (durNote <= 0::second) { // if the note ran out of time
                 //vox.clear(1);
-                scale.sc[ scale.bassRoot + noteOffsets[ noteIndex % noteOffsets.cap() ] ] => int note; // add offset to the currrent root. This allows us to change keys
+                scale.sc[ scale.melodyRoot + noteOffsets[ noteIndex % noteOffsets.cap() ] ] => int note; // add offset to the currrent root. This allows us to change keys
                 if (debug) <<< section, "Changing note to", note >>>;
-                Std.mtof(note) => osc1.freq;
+                //Std.mtof(note) => osc1.freq;
                 Std.mtof(note) => vox.freq;
-                gains[ noteIndex % gains.cap() ] / 2.0 => osc1.gain; // osc is more powerful than the STK
+                //gains[ noteIndex % gains.cap() ] / 2.0 => osc1.gain; // osc is more powerful than the STK
                 if (gains[ noteIndex % gains.cap() ] > 0.){
                      gains[ noteIndex % gains.cap() ]/2 => vox.gain;
                      vox.noteOn(1);
@@ -72,9 +77,17 @@ public class Bass
                 
                 noteIndex++; // increment the counter for next pass
             }
+            // now => time start;
             tempo.th => now;
             tempo.th -=> durNote; // reduce duration of this note by the resloution
-
+            // if (debug)
+            // {
+            //     now => time end;
+            //     <<< "Elapsed time:", end - start >>>;
+            // }
+            // we want the difference between the last duration and this new tempo in case there's a tempo change
+            // (tempo.th + (lastDuration - tempo.th)) -=> durNote; // reduce duration of this note by the resloution
+            // tempo.th => lastDuration;
         }
     }
 }

@@ -85,36 +85,30 @@ public class Simple
         }
     }
 
-    fun void play(string note)
+    1 => int play;
+    fun void stop(){
+        0 => play;
+    }
+
+    fun void playTrack(string note)
     {
-        while (1) 
+        pitch(note);
+        spork ~ playLoop();
+        
+    }
+
+    fun void playLoop(){
+        while (play) 
         {
-            
-            pitch(note); // MIDI note number pitch
             1 => this.noteOn;
             tempo.de => now;
             1 => this.noteOn;
             tempo.si => now;
             1 => this.noteOn;
             tempo.ei => now;
-
-            // pitch("Ab5");     // pitch as float frequency
-            // 1 => this.noteOn;
-            // second => now;
-            
-            // pitch("Gb5"); // pitch as note name string
-            // 1 => this.noteOn;
-            // second => now;
-            
-            
         }
     }
     
-    
 }
-
-// Make an instance of (declare) one of our Simples
-Simple s;
-
 
 

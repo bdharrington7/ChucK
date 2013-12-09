@@ -9,8 +9,3 @@ public class ExtraBass extends HevyMetl
 {
 
 } 
-
-// ExtraBass r => dac;
-// r.freq(Std.mtof(47));
-// r.noteOn(1);
-// 1::second => now;
