@@ -10,8 +10,12 @@
 
 // our conductor/beat-timer class
 Machine.add(me.dir()+"/BPM.ck");
+Machine.add(me.dir()+"/Scale.ck");
+Machine.add(me.dir()+"/Debug.ck");
 
-// our score
+
+// load up the classes first
+Machine.add(me.dir() + "/drums.ck:1") => int drumsID;
 Machine.add(me.dir()+"/score2.ck");
 
 
