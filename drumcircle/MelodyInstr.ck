@@ -1,4 +1,9 @@
 //MelodyInstr.ck
+/*  Title: Classy San Diego Powerplant
+    Author: Brian Harrington
+    Assignment: 7 - Classes and Objects
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-7-the-static-class
+*/
 
 public class MelodyInstr extends ModalBar
 {

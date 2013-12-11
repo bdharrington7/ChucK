@@ -1,8 +1,8 @@
 // bass.ck
 /*  Title: Classy San Diego Powerplant
-    Author: Anonymous
+    Author: Brian Harrington
     Assignment: 7 - Classes and Objects
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-7-the-static-class
 */
 public class Melody
 {
@@ -13,7 +13,6 @@ public class Melody
     "MELODY:" => string section;
     <<< section, "loaded" >>>;
     // setup sound chain
-    // TriOsc osc1 => dac;
     MelodyInstr vox => NRev rev => dac;
     0.05 => rev.mix;
 
@@ -77,17 +76,8 @@ public class Melody
                 
                 noteIndex++; // increment the counter for next pass
             }
-            // now => time start;
             tempo.th => now;
             tempo.th -=> durNote; // reduce duration of this note by the resloution
-            // if (debug)
-            // {
-            //     now => time end;
-            //     <<< "Elapsed time:", end - start >>>;
-            // }
-            // we want the difference between the last duration and this new tempo in case there's a tempo change
-            // (tempo.th + (lastDuration - tempo.th)) -=> durNote; // reduce duration of this note by the resloution
-            // tempo.th => lastDuration;
         }
     }
 }

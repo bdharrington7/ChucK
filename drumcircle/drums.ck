@@ -1,8 +1,8 @@
 // drums.ck
 /*  Title: Classy San Diego Powerplant
-    Author: Anonymous
+    Author: Brian Harrington
     Assignment: 7 - Classes and Objects
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-7-the-static-class
 */
 
 public class Drums{
@@ -14,11 +14,6 @@ public class Drums{
     1 => int play; // whether the while loop should continue
 
     0 => int debug;
-    // 0.625 * 4 => float wLen; // quarter note is 0.625, wLen is whole note length
-
-    // dur wh; //ole
-    // if (debug) { <<< section, "Setting note durations: whole note is", wLen, "seconds" >>>; }
-    // wLen::second => wh; //ole, we only need this duration for drums
 
 
     // load filenames, have to go to parent, then into audio dir

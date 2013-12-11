@@ -1,8 +1,8 @@
 // score.ck
 /*  Title: Classy San Diego Powerplant
-    Author: Anonymous
+    Author: Brian Harrington
     Assignment: 7 - Classes and Objects
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-7-the-static-class
 */
 // on the fly drumming with global BPM conducting
 BPM tempo;
@@ -24,10 +24,10 @@ s.setScale(scaleCIonian);
 s.setBassRoot(17);
 s.setMelodyRoot(38);
 
-// export to wav
-dac => WvOut w => blackhole;
-"7.wav" => w.wavFilename;
-1 => w.record;
+// uncomment to export to wav (and line 60)
+// dac => WvOut w => blackhole;
+// "7.wav" => w.wavFilename;
+// 1 => w.record;
 
 bass.playTrack(1);
 drums.playTrack(1);
@@ -44,10 +44,6 @@ sim.stop();
 s.setBassRoot(22);
 s.setMelodyRoot(43);
 
-//<<< "Now set tempo to 160BPM" >>>;
-//160.0 => newtempo;
-//tempo.setBPM(newtempo);
-//s.setRoot(23);
 16.0 * tempo.qu => now;
 
 // back to normal
@@ -60,5 +56,6 @@ drums.stop();
 drums.playTrack(2);
 8.0 * tempo.qu => now;
 
-0 => w.record;
+// uncomment to export to wav
+// 0 => w.record;
 

@@ -1,6 +1,7 @@
 *.m4a
 *.ogg
 *.wav
+*.zip
 audio
 Grading
 .DS_Store
