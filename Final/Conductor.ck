@@ -10,4 +10,17 @@
 * paradigms here, instead of every class figuring out how long to play, we give signals
 * when a beat has passed
 ***/
+1 => int debug;
+EventBroadcaster eb;
+Drums drums;
 
+"CONDUCTOR:" => string section;
+
+while(true)
+{
+	if (debug) { <<< section, "Sending drum signal" >>>;}
+	42 => eb.drum.drumBit;
+	eb.drum.signal();
+
+	1::second => now;
+}
