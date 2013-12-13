@@ -104,6 +104,18 @@ public class Drums{
     -1 => pan[ hh ].pan => pan[ hho ].pan;
     0.5 => pan[ snare ].pan;
 
+    // drum tracks
+
+    [0x0F, 0xF0] @=> int track1[];
+
+    [track1] @=> int tracks[][];
+
+    fun int getNote(int track, int index)
+    {
+        if (debug) { <<< section, "Getting track", track, "index", index >>>;}
+        return tracks[track][index % tracks[track].cap()];
+    }
+
     // int kick_ptn[];
     // int snare_ptn[];
     // int hh_ptn[];
@@ -210,17 +222,25 @@ public class Drums{
             // --((accrued / ((tempo.wLen/al)::second)) $ int) % al => beat;
 
             e => now; // wait
-            if (debug) { <<< section, "Event received:", e.drumBit >>>; }
+            if (debug) { <<< section, "Event received:", e.drumByte >>>; }
 
-            // if (kick_ptn[beat] == 1){
-            //     if (debug) { <<< "=Kick" >>>; }
-            //     0 => sb [ kick ].pos;
-            // }
+            ((e.drumByte & 0xF) >> 0) / 15. => float kickGain;
+            //if (debug) { <<< section, "kickGain:", kickGain >>>;}
+
+            ((e.drumByte & 0xF0) >> 4) / 15. => float snareGain;
+            if (debug) { <<< section, "snareGain:", snareGain >>>;}
+
+            if (kickGain > 0){
+                if (debug) { <<< "=Kick:", kickGain >>>; }
+                kickGain => sb [kick].gain;
+                0 => sb [ kick ].pos;
+            }
             
-            // if (canReset && snare_ptn[beat] == 1){
-            //     if (debug) { <<< "==Snare" >>>; }
-            //     0 => sb [ snare ].pos;
-            // }
+            if (snareGain > 0){
+                if (debug) { <<< "==Snare:", snareGain >>>; }
+                snareGain => sb [ snare ].gain;
+                0 => sb [ snare ].pos;
+            }
             // //if (debug) { <<< "click", hh_ptn[beat] & 1, hh_ptn[beat] & 2 >>>; }
             // if ( (hh_ptn[beat] & 0x1) > 0 ){ // bitwise ops let me put more instruments in
             //     if (debug) { <<< "===HiHat", hh_ptn[beat] & 1 >>>; }
