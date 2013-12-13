@@ -18,6 +18,7 @@ public class EventBroadcaster
 {
 	"EVENT BROADCASTER:" => string section;
 	static DrumEvent @ drum;
+	static Eventful @ bass;
 	static int init;
 
 	if (!init)
@@ -28,8 +29,9 @@ public class EventBroadcaster
 
 	fun void setup()
 	{
-		<<< section, "setting up drum event" >>>;
+		<<< section, "setting up events" >>>;
 		new DrumEvent @=> drum;
+		new Eventful @=> bass;
 	}
 
 

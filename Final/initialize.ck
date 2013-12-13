@@ -17,11 +17,12 @@ Machine.add(dir + "/DrumEvent.ck");
 
 Machine.add(dir + "/EventBroadcaster.ck");
 
+Machine.add(dir + "/ExtraBass.ck");
 Machine.add(dir + "/Drums.ck");
-Machine.add(dir + "/Conductor.ck");
+
 
 // load up the classes first
-// Machine.add(dir + "/ExtraBass.ck");
+
 // Machine.add(dir + "/MelodyInstr.ck");
 // Machine.add(dir + "/bass.ck");
 // Machine.add(dir + "/Simple-pitch.ck");
@@ -30,3 +31,4 @@ Machine.add(dir + "/Conductor.ck");
 // Machine.add(dir + "/score.ck");
 
 
+Machine.add(dir + "/Conductor.ck");

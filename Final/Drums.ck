@@ -12,7 +12,7 @@ public class Drums{
     "DRUMS:" => string section;
     1 => int play; // whether the while loop should continue
 
-    1 => int debug;
+    0 => int debug;
 
 
     // load filenames, have to go to parent, then into audio dir

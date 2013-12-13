@@ -13,5 +13,18 @@ public class Eventful extends Event
 {
 	// we still have the methods of event() and broadcast() available to us,
 	/// but we can put additional functionality here
+	1 => int debug;
+	"EVENTFUL:" => string section;
+	if (debug) { <<< section, "loading..." >>>;}
+	float gain;
+	float freq;
+	int midiNote;
+
+	// auto conversion of note to frequency
+	fun void note(int n){
+		if (debug) { <<< section, "setting note to", n >>>;}
+		n => midiNote;
+		Std.mtof(n) => freq;
+	}
 }
 
