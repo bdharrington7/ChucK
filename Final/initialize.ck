@@ -16,7 +16,7 @@ Machine.add(dir + "/Eventful.ck");
 Machine.add(dir + "/DrumEvent.ck");
 
 Machine.add(dir + "/EventBroadcaster.ck");
-
+20::ms => now; // have to wait for the Event Broadcaster to load... 
 Machine.add(dir + "/ExtraBass.ck");
 Machine.add(dir + "/Drums.ck");
 

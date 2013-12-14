@@ -33,6 +33,7 @@ public class ExtraBass extends HevyMetl
 	[56, 67] @=> int noteTrack1[];
 	[noteTrack1] @=> int notes[][];
 
+	// function for the Conductor to get the note for this instrument
 	fun int getNote(int track, int index)
 	{
 		if (debug) { <<< section, "getting note track", track, ", index", index >>>;}
@@ -43,6 +44,7 @@ public class ExtraBass extends HevyMetl
 	[1.] @=> float gainTrack1[];
 	[gainTrack1] @=> float gains[][];
 
+	// function for the Conductor to get the gain for this instruments
 	fun float getGain(int track, int index)
 	{
 		if (debug) { <<< section, "getting gain track", track, ", index", index >>>;}
@@ -50,5 +52,21 @@ public class ExtraBass extends HevyMetl
 	}
 
 	// TODO: recieve events
+	EventBroadcaster eb;
+
+	spork ~ playBass(eb.bass);
+
+	fun void playBass(Eventful evt)
+	{
+		if (debug) { <<< section, "going into while loop" >>>;}
+
+		while (true)
+		{
+			evt =>now;
+			if (debug) { <<< section, "event recieved! gain:", evt.gain, "freq:", evt.freq, "midiNote", evt.midiNote >>>;}
+
+
+		}
+	}
 
 } 

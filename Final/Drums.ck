@@ -200,7 +200,7 @@ public class Drums{
 
     spork ~ playLoop(eb.drum);
 
-    fun void playLoop(DrumEvent e){
+    fun void playLoop(DrumEvent drmEvt){
         /* Main loop where we play everything 
         */
         // get the length of the array easier calcs
@@ -221,25 +221,25 @@ public class Drums{
             // this allows the time signature to be flexible.
             // --((accrued / ((tempo.wLen/al)::second)) $ int) % al => beat;
 
-            e => now; // wait
-            if (debug) { <<< section, "Event received:", e.drumByte >>>; }
+            drmEvt => now; // wait
+            if (debug) { <<< section, "Event received:", drmEvt.drumByte >>>; }
 
-            ((e.drumByte & 0xF) >> 0) / 15. => float kickGain;
+            ((drmEvt.drumByte & 0xF) >> 0) / 15. => float kickGain;
             //if (debug) { <<< section, "kickGain:", kickGain >>>;}
 
-            ((e.drumByte & 0xF0) >> 4) / 15. => float snareGain;
+            ((drmEvt.drumByte & 0xF0) >> 4) / 15. => float snareGain;
             if (debug) { <<< section, "snareGain:", snareGain >>>;}
 
             if (kickGain > 0){
                 if (debug) { <<< "=Kick:", kickGain >>>; }
-                kickGain => sb [kick].gain;
-                0 => sb [ kick ].pos;
+                kickGain => sb[ kick ].gain;
+                0 => sb[ kick ].pos;
             }
             
             if (snareGain > 0){
                 if (debug) { <<< "==Snare:", snareGain >>>; }
-                snareGain => sb [ snare ].gain;
-                0 => sb [ snare ].pos;
+                snareGain => sb[ snare ].gain;
+                0 => sb[ snare ].pos;
             }
             // //if (debug) { <<< "click", hh_ptn[beat] & 1, hh_ptn[beat] & 2 >>>; }
             // if ( (hh_ptn[beat] & 0x1) > 0 ){ // bitwise ops let me put more instruments in
