@@ -224,11 +224,24 @@ public class Drums{
             drmEvt => now; // wait
             if (debug) { <<< section, "Event received:", drmEvt.drumByte >>>; }
 
+            // each section of drums is 4 bits placed in the integer like so:
+            // in a 32-bit int, the bits are
+            //        X    X    X    X   hho  hh  snre kick
+            //      0000 0000 0000 0000 0000 0000 0000 0000
+            // bit:31   27   23   19   15   11    7654 3210
+            // bitmask and shift the bits over to find the gain for that drumpiece, use the gain as
+            // a hit, and as, you guessed it, the gain. Since the gain comes in as a number between
+            // 0 to 15, we divide by 15.0 to get a float between 0.0 and 1.0
+
             ((drmEvt.drumByte & 0xF) >> 0) / 15. => float kickGain;
             //if (debug) { <<< section, "kickGain:", kickGain >>>;}
 
             ((drmEvt.drumByte & 0xF0) >> 4) / 15. => float snareGain;
-            if (debug) { <<< section, "snareGain:", snareGain >>>;}
+            //if (debug) { <<< section, "snareGain:", snareGain >>>;}
+
+            ((drmEvt.drumByte & 0xF0) >> 8) / 15. => float hhGain;  // hihat 
+
+            ((drmEvt.drumByte & 0xF0) >> 12) / 15. => float hhoGain;  // hihat open
 
             if (kickGain > 0){
                 if (debug) { <<< "=Kick:", kickGain >>>; }
@@ -242,15 +255,15 @@ public class Drums{
                 0 => sb[ snare ].pos;
             }
             // //if (debug) { <<< "click", hh_ptn[beat] & 1, hh_ptn[beat] & 2 >>>; }
-            // if ( (hh_ptn[beat] & 0x1) > 0 ){ // bitwise ops let me put more instruments in
-            //     if (debug) { <<< "===HiHat", hh_ptn[beat] & 1 >>>; }
-            //     0 => sb [ hh ].pos;
-            //     sb [ hho ].samples() => sb [ hho ].pos; // stop the hho
-            // }
-            // if ( (hh_ptn[beat] & 0x2) > 0){
-            //     if (debug) { <<< "===HiHatOpen", hh_ptn[beat] & 2 >>>; }
-            //     0 => sb [ hho ].pos;
-            // }
+            if ( hhGain > 0 ){ 
+                if (debug) { <<< "===HiHat", hhGain >>>; }
+                0 => sb [ hh ].pos;
+                sb [ hho ].samples() => sb [ hho ].pos; // stop the hh open
+            }
+            if ( hhoGain > 0) {
+                if (debug) { <<< "===HiHatOpen", hhoGain >>>; }
+                0 => sb [ hho ].pos;
+            }
             
             // if ( (hh_ptn[beat] & 0x4) > 0){
             //     if (debug) { <<< "===Lo Click", hh_ptn[beat] & 4 >>>; }

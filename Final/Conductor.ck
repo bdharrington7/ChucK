@@ -16,14 +16,19 @@
 BPM tempo;
 EventBroadcaster eb;
 Drums drums;
-ExtraBass bass;
+BassPlayer bass;
 
 
 "CONDUCTOR:" => string section;
-50::ms => now; // wait for the dust to settle
+//50::ms => now; // wait for the dust to settle?
 
+// set the tempo
+tempo.setBPM(120);
+
+if (debug) { <<< section, "sporking drums" >>>;}
 spork ~ playDrums(0, 4);
-spork ~ playBass(0, 4);
+if (debug) { <<< section, "sporking bass" >>>;}
+spork ~ playBass(0, 8);
 // must let time pass or this dies immediately
 2::second => now;
 
@@ -31,15 +36,20 @@ fun void playDrums(int track, int beats)
 {
 	if(debug){ <<< section, "in playDrums" >>>;}
 	0 => int beat;
-	repeat(beats)
-	{
-		drums.getNote(0,beat) => eb.drum.drumByte;
-		if (debug) { <<< section, "Sending drum signal", eb.drum.drumByte >>>;}
-		eb.drum.signal();
+	if (track == 0){
+		repeat(beats)
+		{
+			drums.getNote(0,beat) => eb.drum.drumByte;
+			if (debug) { <<< section, "Sending drum signal", eb.drum.drumByte >>>;}
+			eb.drum.signal();
 
-		beat++;
+			beat++;
 
-		0.5::second => now;
+			tempo.qu => now;
+		}
+	}
+	else if (track == 1){
+
 	}
 }
 
@@ -55,6 +65,6 @@ fun void playBass(int track, int beats)
 		eb.bass.signal();
 
 		note++;
-		0.5::second => now;
+		tempo.ei => now;
 	}
 }

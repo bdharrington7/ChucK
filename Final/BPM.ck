@@ -25,11 +25,8 @@ public class BPM
     
     // class variables
     "BPM" => string section;
-    0 => int debug;
+    1 => int debug;
 
-    fun void setDebugOn(){
-        1 => debug;
-    }
 
     /* Function to translate string to the actual static dur of the tempo */
     fun dur durs(string d)

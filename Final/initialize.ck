@@ -17,8 +17,14 @@ Machine.add(dir + "/DrumEvent.ck");
 
 Machine.add(dir + "/EventBroadcaster.ck");
 20::ms => now; // have to wait for the Event Broadcaster to load... 
+
+// add any extended instruments
 Machine.add(dir + "/ExtraBass.ck");
+
+// add players (drums is combined)
 Machine.add(dir + "/Drums.ck");
+Machine.add(dir + "/BassPlayer.ck");
+
 
 
 // load up the classes first

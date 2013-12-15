@@ -29,8 +29,9 @@ public class EventBroadcaster
 
 	fun void setup()
 	{
-		<<< section, "setting up events" >>>;
+		<<< section, "setting up drum event" >>>;
 		new DrumEvent @=> drum;
+		<<< section, "setting up bass event" >>>;
 		new Eventful @=> bass;
 	}
 
