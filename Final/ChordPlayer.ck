@@ -1,15 +1,12 @@
-//BassPlayer.ck
+//ChordPlayer.ck
 
-public class BassPlayer {
-	ExtraBass bass;// => dac;
-	//SinOsc bassOsc => dac; // extra layer
-
-	"BASS PLAYER:" => string section;
-
+public class ChordPlayer
+{
+	"CHORD PLAYER:" => string section;
 	1 => int debug;
 
-	// bass notes
-	[29, 32, 0] @=> int bassMelody1[];
+	// chord notes TODO change these, 2d array probably
+	[45, 47, 0] @=> int bassMelody1[];
 	[bassMelody1] @=> int notes[][];
 
 	// function for the Conductor to get the note for this instrument
@@ -20,7 +17,7 @@ public class BassPlayer {
 	}
 
 	// gains
-	[.8] @=> float gainTrack1[];
+	[.5] @=> float gainTrack1[];
 	[gainTrack1] @=> float gains[][];
 
 	// function for the Conductor to get the gain for this instruments
@@ -32,9 +29,9 @@ public class BassPlayer {
 
 	EventBroadcaster eb;
 
-	spork ~ playBass(eb.bass);
+	spork ~ playChord(eb.bass);
 
-	fun void playBass(Eventful evt)
+	fun void playChord(Eventful evt)
 	{
 		if (debug) { <<< section, "going into while loop" >>>;}
 
@@ -43,17 +40,19 @@ public class BassPlayer {
 			evt =>now;
 			if (debug) { 
 				<<< section, "event received! gain:", evt.gain, "freq:", evt.freq, "midiNote", evt.midiNote >>>;
+				<<< evt.gain >>>;
+				<<< evt.freq >>>;
+				<<< evt.midiNote >>>;
 			}
-			evt.freq => float theFreq;
+		eb.drum	evt.freq => float theFreq;
 			evt.gain => float theGain;
-			evt.midiNote => int theNote;
 
-			if (theNote > 0){
+			if (theFreq > 0){
 				if (debug) { <<< section, "playing note" >>>;}
-				bass.bNoteOn(theFreq, theGain, 1.);
-			}
-			else {
-				bass.bNoteOff();
+				theFreq => bass.freq => bassOsc.freq;
+				theGain => bass.gain;
+				theGain => bassOsc.gain;
+				bass.noteOn(1);
 			}
 		}
 	}

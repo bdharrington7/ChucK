@@ -19,6 +19,7 @@ public class Eventful extends Event
 	float gain;
 	float freq;
 	int midiNote;
+	int arp; // flag to arpeggiate or not
 
 	// auto conversion of note to frequency
 	fun void note(int n){

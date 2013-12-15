@@ -11,23 +11,29 @@ public class ExtraBass extends HevyMetl
 	"BASS:" => string section;
 	1 => int debug;
 	if (debug) { <<< section, "loading class" >>>;}
+
+	this => NRev rev => dac;
+	0.05 => rev.mix;
 	// give some layer to this bass by adding an osc
-	// SinOsc osc => dac;
+	SinOsc osc => dac;
 
-	// fun void bNoteOn (float freq, float gain, float velocity)
-	// {
-	// 	if (debug) { <<< section, "calling noteOn", freq, " ", gain >>>;}
+	
+	fun void bNoteOn (float fr, float ga, float vel)
+	{
+		if (debug) { <<< section, "calling noteOn", fr, "gain", ga >>>;}
 		
-	// 	freq => this.freq;//=> osc.freq;
-	// 	// gain / 2.0 => osc.gain;
-	// 	gain => this.gain;
-	// 	this.noteOn(velocity);
-	// }
+		fr => this.freq => osc.freq;
+		// gain / 2.0 => osc.gain;
+		ga => this.gain => osc.gain;
+		this.noteOn(vel);
+	}
 
-	// fun void bNoteOff()
-	// {
-	// 	if (debug) { <<< section, "calling noteOff" >>>;}
-	// 	this.noteOff(1);
-	// 	// 0 => osc.freq; // effectively off
-	// }
+
+	fun void bNoteOff()
+	{
+		if (debug) { <<< section, "calling noteOff" >>>;}
+		this.noteOff(1);
+		0 => osc.freq;
+		0 => osc.gain;
+	}
 }

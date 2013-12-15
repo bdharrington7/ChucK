@@ -28,9 +28,9 @@ tempo.setBPM(120);
 if (debug) { <<< section, "sporking drums" >>>;}
 spork ~ playDrums(0, 4);
 if (debug) { <<< section, "sporking bass" >>>;}
-spork ~ playBass(0, 8);
+spork ~ playBass(0, 5);
 // must let time pass or this dies immediately
-2::second => now;
+4::second => now;
 
 fun void playDrums(int track, int beats)
 {
@@ -58,13 +58,21 @@ fun void playBass(int track, int beats)
 {
 	if (debug) {<<< section, "in playBass, " >>>;}
 	0 => int note;
-	repeat (beats)
-	{
-		bass.getNote(0, note) => eb.bass.note;
-		bass.getGain(0, note) => eb.bass.gain;
-		eb.bass.signal();
+	if (track == 0){
+		repeat (beats)
+		{
+			bass.getNote(0, note) => eb.bass.note;
+			bass.getGain(0, note) => eb.bass.gain;
+			eb.bass.signal();
 
-		note++;
-		tempo.ei => now;
+			note++;
+			tempo.ei => now;
+		}
 	}
+	else if (track == 1){
+
+	}
+	// stop playing when done
+	0 => eb.bass.note;
+	eb.bass.signal();
 }
