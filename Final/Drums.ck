@@ -114,8 +114,9 @@ public class Drums{
 
     [0x090A, 0x0500, 0x07F0, 0x0500] @=> int track0[];
     [0x900A, 0x0000, 0x90F0, 0x0000, 0x900A, 0x000A, 0x90F0, 0x0000] @=> int track1[];
+    [0x090A, 0x0500, 0x0500, 0x09F0, 0x0500, 0x0500] @=> int track2[];
 
-    [track0, track1] @=> int tracks[][];
+    [track0, track1, track2] @=> int tracks[][];
 
     fun int getNote(int track, int index)
     {
@@ -181,15 +182,6 @@ public class Drums{
                 0 => sb [ hho ].pos;
             }
             
-            // if ( (hh_ptn[beat] & 0x4) > 0){
-            //     if (debug) { <<< "===Lo Click", hh_ptn[beat] & 4 >>>; }
-            //     0 => sb [ lc ].pos;
-            // }
-            
-            // if ( (hh_ptn[beat] & 0x8) > 0){
-            //     if (debug) { <<< "===Hi Click", hh_ptn[beat] & 8 >>>; }
-            //     0 => sb [ hc ].pos;
-            // }
         }
     }
 }

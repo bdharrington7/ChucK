@@ -13,6 +13,7 @@
 * Ok so after coding this a while it's more of a lead rather than a conductor
 ***/
 1 => int debug;
+0 => int recording;
 BPM tempo;
 EventBroadcaster eb;
 Drums drums;
@@ -29,14 +30,14 @@ tempo.setBPM(120);
 
 // this is the main score part
 // intro
-// Noise noize => ResonZ res => dac;
-// 0.03 => noize.gain;
-// 23.0 => float f;
-// while (f < 1000){
-// 	f => res.freq;
-// 	0.1 +=> f;
-// 	1::ms => now;
-// }
+// wxport to wav (and line 60)
+WvOut w;
+if(recording){
+	dac => WvOut w => blackhole;
+	"8.wav" => w.wavFilename;
+	1 => w.record;
+}
+
 organ => JCRev rev => dac;
 0.3 => rev.mix;
 10 => Std.mtof => organ.freq;
@@ -50,10 +51,11 @@ repeat (8){
 }
 
 organ.noteOff(1);
-0.4 => organ.gain;
+0.15 => organ.gain;
 0 => int timesThru;
 repeat (2){
 	if (timesThru > 0){
+		if (debug) {<<< section, "playing solo" >>>;}
 		spork ~ organSolo(0, 1);
 	}
 	if (debug) { <<< section, "sporking drums" >>>;}
@@ -75,7 +77,7 @@ repeat (2){
 
 spork ~ organSolo(1, 2);
 
-repeat (2){
+repeat (1){
 	if (debug) { <<< section, "sporking drums" >>>;}
 	spork ~ playDrums(0, 48);
 	if (debug) { <<< section, "sporking bass" >>>;}
@@ -91,7 +93,21 @@ repeat (2){
 	tempo.wh*2 => now;
 }
 
+// and now, for something completely different
+spork ~ playDrums(2, 36);
+spork ~ playBass(2, 7);
+spork ~ organSolo(2, 2);
+tempo.wh*5 => now;
+// shut down
+organ.noteOff(1);
+0 => eb.bass.note;
+eb.bass.signal();
+tempo.dw => now;
 
+// uncomment to export to wav
+if (recording){
+	0 => w.record;
+}
 
 
 fun void playDrums(int track, int beats)
@@ -116,6 +132,18 @@ fun void playDrums(int track, int beats)
 		repeat(beats)
 		{
 			drums.getNote(1,beat) => eb.drum.drumByte;
+			if (debug) { <<< section, "Sending drum signal", eb.drum.drumByte >>>;}
+			eb.drum.signal();
+
+			beat++;
+
+			tempo.ei => now;
+		}
+	}
+	else if (track == 2){
+		0 => int beat;
+		repeat (beats){
+			drums.getNote(2, beat) => eb.drum.drumByte;
 			if (debug) { <<< section, "Sending drum signal", eb.drum.drumByte >>>;}
 			eb.drum.signal();
 
@@ -155,6 +183,18 @@ fun void playBass(int track, int beats)
 			tempo.wh => now;
 		}
 	}
+	else if (track == 2){
+		0 => int note;
+		repeat (beats)
+		{
+			bass.getNote(2, note) => eb.bass.note;
+			bass.getGain(0, note) => eb.bass.gain;
+			eb.bass.signal();
+
+			note++;
+			tempo.dh => now;
+		}
+	}
 	// stop playing when done
 	0 => eb.bass.note;
 	eb.bass.signal();
@@ -191,6 +231,7 @@ fun void playChord(int track, int beats){
 fun void organSolo(int track, int beats){
 
 	if (track == 0){
+		if (debug) { <<< section, "playing track", track >>>;}
 		repeat (beats){
 			77 => Std.mtof => organ.freq;
 			tempo.dw => now;
@@ -223,6 +264,7 @@ fun void organSolo(int track, int beats){
 
 	}
 	else if (track == 1){
+		if (debug) { <<< section, "playing track", track >>>;}
 		[65, 68, 70, 71] @=> int notes[];
 		//0 => int note;
 		repeat(beats){
@@ -258,6 +300,19 @@ fun void organSolo(int track, int beats){
 			tempo.ha => now;
 			organ.noteOff(1);
 			tempo.dw => now;
+		}
+	}
+	else if (track == 2){ // hm, stormy...
+		if (debug) { <<< section, "+++++++ playing track +++++++++++++++", track >>>;}
+		[65, 68, 77, 65, 68, 77, 79, 80, 79, 80, 79, 75, 72,  
+		72, 65, 68, 70, 72, 72, 65] @=> int notes[];
+		[tempo.ei, tempo.ei, tempo.ha, tempo.ei, tempo.ei, tempo.ha, tempo.dq, tempo.ei, tempo.ei, tempo.ei, tempo.ei, tempo.ei, tempo.ha,
+		tempo.qu, tempo.qu, tempo.ei, tempo.ei, tempo.ha, tempo.qu, tempo.dw] @=> dur durs[];
+		for (0 => int i; i < notes.cap(); i++){
+			if (debug) {<<< "SOS SOS SOS SOS SOS SOS SOS SOS SOS SOS" >>>;}
+			notes[i] => Std.mtof => organ.freq;
+			organ.noteOn(1);
+			durs[i] => now;
 		}
 	}
 }

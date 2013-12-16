@@ -30,14 +30,5 @@ Machine.add(dir + "/ChordPlayer.ck");
 
 
 
-// load up the classes first
-
-// Machine.add(dir + "/MelodyInstr.ck");
-// Machine.add(dir + "/bass.ck");
-// Machine.add(dir + "/Simple-pitch.ck");
-// Machine.add(dir + "/drums.ck:1"); 
-// Machine.add(dir + "/melody.ck");
-// Machine.add(dir + "/score.ck");
-
 
 Machine.add(dir + "/Conductor.ck");
