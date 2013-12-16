@@ -17,6 +17,7 @@ BPM tempo;
 EventBroadcaster eb;
 Drums drums;
 BassPlayer bass;
+ChordPlayer chord;
 
 
 "CONDUCTOR:" => string section;
@@ -25,10 +26,12 @@ BassPlayer bass;
 // set the tempo
 tempo.setBPM(120);
 
-if (debug) { <<< section, "sporking drums" >>>;}
-spork ~ playDrums(0, 4);
-if (debug) { <<< section, "sporking bass" >>>;}
-spork ~ playBass(0, 5);
+if (debug) {<<< section, "sporking chords" >>>;}
+spork ~ playChord(0, 4);
+// if (debug) { <<< section, "sporking drums" >>>;}
+// spork ~ playDrums(0, 4);
+// if (debug) { <<< section, "sporking bass" >>>;}
+// spork ~ playBass(0, 5);
 // must let time pass or this dies immediately
 4::second => now;
 
@@ -75,4 +78,26 @@ fun void playBass(int track, int beats)
 	// stop playing when done
 	0 => eb.bass.note;
 	eb.bass.signal();
+}
+
+fun void playChord(int track, int beats){
+	if (debug) { <<< section, "int playChord" >>>;}
+	0 => int note;
+	if (track == 0) {
+		repeat (beats){
+			chord.getNotes(0, note) => eb.chord.notes;
+			chord.getGain(0, note) => eb.chord.gain;
+			eb.chord.signal();
+
+			note++;
+			tempo.ei => now;
+		}
+	}
+	else if (track == 1){
+
+	}
+
+	// stop playing when done
+	// TODO
+
 }

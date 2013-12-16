@@ -19,6 +19,7 @@ public class EventBroadcaster
 	"EVENT BROADCASTER:" => string section;
 	static DrumEvent @ drum;
 	static Eventful @ bass;
+	static ChordEvent @ chord;
 	static int init;
 
 	if (!init)
@@ -33,6 +34,8 @@ public class EventBroadcaster
 		new DrumEvent @=> drum;
 		<<< section, "setting up bass event" >>>;
 		new Eventful @=> bass;
+
+		new ChordEvent @=> chord;
 	}
 
 

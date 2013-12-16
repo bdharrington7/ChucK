@@ -8,7 +8,7 @@
 public class ExtraBass extends HevyMetl 
 {
 
-	"BASS:" => string section;
+	"BASS INSTRUMENT:" => string section;
 	1 => int debug;
 	if (debug) { <<< section, "loading class" >>>;}
 
@@ -17,13 +17,12 @@ public class ExtraBass extends HevyMetl
 	// give some layer to this bass by adding an osc
 	SinOsc osc => dac;
 
-	
+
 	fun void bNoteOn (float fr, float ga, float vel)
 	{
 		if (debug) { <<< section, "calling noteOn", fr, "gain", ga >>>;}
 		
 		fr => this.freq => osc.freq;
-		// gain / 2.0 => osc.gain;
 		ga => this.gain => osc.gain;
 		this.noteOn(vel);
 	}

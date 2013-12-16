@@ -2,15 +2,16 @@
 
 public class ChordPlayer
 {
+	ChordInstrument chords[4];
 	"CHORD PLAYER:" => string section;
 	1 => int debug;
 
 	// chord notes TODO change these, 2d array probably
-	[45, 47, 0] @=> int bassMelody1[];
-	[bassMelody1] @=> int notes[][];
+	[[45, 48, 50],[48, 52, 53]] @=> int chordMelody1[][];
+	[chordMelody1] @=> int notes[][][];
 
 	// function for the Conductor to get the note for this instrument
-	fun int getNote(int track, int index)
+	fun int[] getNotes(int track, int index)
 	{
 		if (debug) { <<< section, "getting note track", track, ", index", index >>>;}
 		return notes[track][index % notes[track].cap()];
@@ -29,30 +30,35 @@ public class ChordPlayer
 
 	EventBroadcaster eb;
 
-	spork ~ playChord(eb.bass);
+	spork ~ playChord(eb.chord);
 
-	fun void playChord(Eventful evt)
+	fun void playChord(ChordEvent evt)
 	{
 		if (debug) { <<< section, "going into while loop" >>>;}
 
 		while (true)
 		{
-			evt =>now;
+			evt => now;
 			if (debug) { 
-				<<< section, "event received! gain:", evt.gain, "freq:", evt.freq, "midiNote", evt.midiNote >>>;
-				<<< evt.gain >>>;
-				<<< evt.freq >>>;
-				<<< evt.midiNote >>>;
+				<<< section, "event received! gain:", evt.gain, "root freq:", evt.freqs[0], "root midiNote", evt.midiNotes[0], "arp:", evt.arp >>>;
 			}
-		eb.drum	evt.freq => float theFreq;
+			evt.freqs @=> float theFreqs[];
 			evt.gain => float theGain;
 
-			if (theFreq > 0){
+			if (evt.midiNotes[0] > 0){
 				if (debug) { <<< section, "playing note" >>>;}
-				theFreq => bass.freq => bassOsc.freq;
-				theGain => bass.gain;
-				theGain => bassOsc.gain;
-				bass.noteOn(1);
+				// theFreqs => chord.freqs;
+				// theGain => chord.gain;
+				// chord.noteOn(1);
+				for ( 0 => int i; i < theFreqs.cap(); i++){
+					chords[i].cNoteOn(theFreqs[i], theGain, 1.);
+				}
+				
+			}
+			else {
+				for (0 => int i; i < theFreqs.cap(); i++){
+					chords[i].cNoteOff();
+				}
 			}
 		}
 	}

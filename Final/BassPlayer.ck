@@ -1,8 +1,7 @@
 //BassPlayer.ck
 
 public class BassPlayer {
-	ExtraBass bass;// => dac;
-	//SinOsc bassOsc => dac; // extra layer
+	ExtraBass bass;
 
 	"BASS PLAYER:" => string section;
 
