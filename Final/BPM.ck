@@ -2,7 +2,7 @@
 /*  Title: The Final Meltdown
     Author: Anonymous
     Assignment: 8 - Final
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
 */
 // global BPM conductor Class
 public class BPM
@@ -25,7 +25,7 @@ public class BPM
     
     // class variables
     "BPM" => string section;
-    1 => int debug;
+    0 => int debug;
 
 
     /* Function to translate string to the actual static dur of the tempo */

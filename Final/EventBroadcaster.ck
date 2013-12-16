@@ -2,14 +2,13 @@
 /*  Title: The Final Meltdown
     Author: Anonymous
     Assignment: 8 - Final
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
 */
 
 /***
 * This class will hold a static reference to an event that can be used to signal 
 * the classes that are listening
 ***/
-//Machine.add(me.dir() + "/Eventful.ck");
 
 // this class will contain all of the static events to signal other instruments
 

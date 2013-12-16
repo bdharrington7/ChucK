@@ -2,7 +2,7 @@
 /*  Title: The Final Meltdown
     Author: Anonymous
     Assignment: 8 - Final
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
 */
 
 /***
@@ -12,8 +12,8 @@
 * know what / when to play.
 * Ok so after coding this a while it's more of a lead rather than a conductor
 ***/
-1 => int debug;
-0 => int recording;
+0 => int debug;
+0 => int recording;  // set this to 1 to record to disk
 BPM tempo;
 EventBroadcaster eb;
 Drums drums;
@@ -23,14 +23,13 @@ BeeThree organ; // solo
 
 
 "CONDUCTOR:" => string section;
-//50::ms => now; // wait for the dust to settle?
 
 // set the tempo
 tempo.setBPM(120);
 
 // this is the main score part
 // intro
-// wxport to wav (and line 60)
+
 WvOut w;
 if(recording){
 	dac => WvOut w => blackhole;
@@ -66,8 +65,6 @@ repeat (2){
 	tempo.wh*6 => now;
 	if (debug) {<<< section, "sporking chords" >>>;}
 	spork ~ playChord(0, 4);
-	//tempo.wh => now;
-	//spork ~ playChord(-1, 0);
 	spork ~ playBass (1, 2);
 	spork ~ playDrums(1, 16);
 	tempo.wh*2 => now;
@@ -86,8 +83,6 @@ repeat (1){
 	tempo.wh*6 => now;
 	if (debug) {<<< section, "sporking chords" >>>;}
 	spork ~ playChord(0, 4);
-	//tempo.wh => now;
-	//spork ~ playChord(-1, 0);
 	spork ~ playBass (1, 2);
 	spork ~ playDrums(1, 16);
 	tempo.wh*2 => now;
@@ -292,8 +287,6 @@ fun void organSolo(int track, int beats){
 				notes[1] => Std.mtof => organ.freq;
 				organ.noteOn(1);
 				tempo.ei => now;
-				// notes[0] => Std.mtof => organ.freq;
-				// organ.noteOn(1);
 			}
 			notes[0] => Std.mtof => organ.freq;
 			organ.noteOn(1);
@@ -303,13 +296,13 @@ fun void organSolo(int track, int beats){
 		}
 	}
 	else if (track == 2){ // hm, stormy...
-		if (debug) { <<< section, "+++++++ playing track +++++++++++++++", track >>>;}
+		if (debug) { <<< section, "playing track", track >>>;}
 		[65, 68, 77, 65, 68, 77, 79, 80, 79, 80, 79, 75, 72,  
 		72, 65, 68, 70, 72, 72, 65] @=> int notes[];
 		[tempo.ei, tempo.ei, tempo.ha, tempo.ei, tempo.ei, tempo.ha, tempo.dq, tempo.ei, tempo.ei, tempo.ei, tempo.ei, tempo.ei, tempo.ha,
 		tempo.qu, tempo.qu, tempo.ei, tempo.ei, tempo.ha, tempo.qu, tempo.dw] @=> dur durs[];
 		for (0 => int i; i < notes.cap(); i++){
-			if (debug) {<<< "SOS SOS SOS SOS SOS SOS SOS SOS SOS SOS" >>>;}
+			if (debug) {<<< section, "song of storms" >>>;}
 			notes[i] => Std.mtof => organ.freq;
 			organ.noteOn(1);
 			durs[i] => now;

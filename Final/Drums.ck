@@ -2,7 +2,7 @@
 /*  Title: The Final Meltdown
     Author: Anonymous
     Assignment: 8 - Final
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
 */
 
 public class Drums{
@@ -12,7 +12,7 @@ public class Drums{
     "DRUMS:" => string section;
     1 => int play; // whether the while loop should continue
 
-    1 => int debug;
+    0 => int debug;
 
 
     // load filenames, have to go to parent, then into audio dir
@@ -112,9 +112,9 @@ public class Drums{
     //      0000 0000 0000 0000 0000 0000 0000 0000
     // bit:31   27   23   19   15   11    7654 3210
 
-    [0x090A, 0x0500, 0x07F0, 0x0500] @=> int track0[];
-    [0x900A, 0x0000, 0x90F0, 0x0000, 0x900A, 0x000A, 0x90F0, 0x0000] @=> int track1[];
-    [0x090A, 0x0500, 0x0500, 0x09F0, 0x0500, 0x0500] @=> int track2[];
+    [0x0909, 0x0500, 0x07F0, 0x0500] @=> int track0[];
+    [0x9009, 0x0000, 0x90F0, 0x0000, 0x9009, 0x0009, 0x90F0, 0x0000] @=> int track1[];
+    [0x0909, 0x0500, 0x0500, 0x09F0, 0x0500, 0x0500] @=> int track2[];
 
     [track0, track1, track2] @=> int tracks[][];
 
@@ -171,9 +171,9 @@ public class Drums{
                 snareGain => sb[ snare ].gain;
                 0 => sb[ snare ].pos;
             }
-            // //if (debug) { <<< "click", hh_ptn[beat] & 1, hh_ptn[beat] & 2 >>>; }
             if ( hhGain > 0 ){ 
                 if (debug) { <<< "===HiHat", hhGain >>>; }
+                Math.random2f( 0.99, 1.0 ) => sb [hh].rate;  // adds some realizm
                 0 => sb [ hh ].pos;
                 sb [ hho ].samples() => sb [ hho ].pos; // stop the hh open
             }

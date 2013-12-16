@@ -2,14 +2,14 @@
 /*  Title: The Final Meltdown
     Author: Anonymous
     Assignment: 8 - Final
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
 */
 // this class isn't as independent as it could be, just using as a layer to the bass
 public class ExtraBass extends HevyMetl 
 {
 
 	"BASS INSTRUMENT:" => string section;
-	1 => int debug;
+	0 => int debug;
 	if (debug) { <<< section, "loading class" >>>;}
 
 	this => NRev rev => dac;

@@ -1,10 +1,15 @@
 //ChordPlayer.ck
+/*  Title: The Final Meltdown
+    Author: Anonymous
+    Assignment: 8 - Final
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
+*/
 
 public class ChordPlayer
 {
 	ChordInstrument chords[4];
 	"CHORD PLAYER:" => string section;
-	1 => int debug;
+	0 => int debug;
 
 	// chord notes TODO change these, 2d array probably
 	[[62, 65, 69, 74]] @=> int chordMelody0[][];

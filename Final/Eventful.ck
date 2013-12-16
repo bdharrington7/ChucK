@@ -2,7 +2,7 @@
 /*  Title: The Final Meltdown
     Author: Anonymous
     Assignment: 8 - Final
-    Soundcloud link: TODO add link
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
 */
 
 /***
@@ -13,7 +13,7 @@ public class Eventful extends Event
 {
 	// we still have the methods of event() and broadcast() available to us,
 	/// but we can put additional functionality here
-	1 => int debug;
+	0 => int debug;
 	"EVENTFUL:" => string section;
 	if (debug) { <<< section, "loading..." >>>;}
 	float gain;

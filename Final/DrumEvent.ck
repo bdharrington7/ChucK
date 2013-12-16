@@ -1,9 +1,12 @@
 //DrumEvent.ck
-
+/*  Title: The Final Meltdown
+    Author: Anonymous
+    Assignment: 8 - Final
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
+*/
 
 public class DrumEvent extends Eventful
 {
-	1 => debug;
 	"DRUM EVENT:" => section;
 	if (debug) { <<< section, "loading..." >>>;}
 

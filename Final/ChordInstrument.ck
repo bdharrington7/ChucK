@@ -1,9 +1,14 @@
 //ChordInstrument.ck
+/*  Title: The Final Meltdown
+    Author: Anonymous
+    Assignment: 8 - Final
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
+*/
 
 public class ChordInstrument extends ModalBar
 {
 	"CHORD INSTRUMENT:" => string section;
-	1 => int debug;
+	0 => int debug;
 	if (debug) { <<< section, "loaing class..." >>>;}
 
 	this => NRev rev => dac;

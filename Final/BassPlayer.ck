@@ -1,11 +1,15 @@
 //BassPlayer.ck
-
+/*  Title: The Final Meltdown
+    Author: Anonymous
+    Assignment: 8 - Final
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
+*/
 public class BassPlayer {
 	ExtraBass bass;
 
 	"BASS PLAYER:" => string section;
 
-	1 => int debug;
+	0 => int debug;
 
 	// bass notes
 	[29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 34] @=> int bassMelody0[];
@@ -21,7 +25,7 @@ public class BassPlayer {
 	}
 
 	// gains
-	[.6] @=> float gainTrack1[];
+	[.5] @=> float gainTrack1[];
 	[gainTrack1] @=> float gains[][];
 
 	// function for the Conductor to get the gain for this instruments

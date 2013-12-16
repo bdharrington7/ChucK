@@ -1,5 +1,9 @@
 //Keyboard.ck
-
+/*  Title: The Final Meltdown
+    Author: Anonymous
+    Assignment: 8 - Final
+    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
+*/
 Hid hid; // human interface device
 
 HidMsg msg; /// message from keyboard
