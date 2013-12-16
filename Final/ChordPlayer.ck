@@ -7,8 +7,8 @@ public class ChordPlayer
 	1 => int debug;
 
 	// chord notes TODO change these, 2d array probably
-	[[60, 64, 67],[48, 52, 53]] @=> int chordMelody1[][];
-	[chordMelody1] @=> int notes[][][];
+	[[62, 65, 69, 74]] @=> int chordMelody0[][];
+	[chordMelody0] @=> int notes[][][];
 
 	// function for the Conductor to get the note for this instrument
 	fun int[] getNotes(int track, int index)
@@ -73,10 +73,16 @@ public class ChordPlayer
 		split / freqs.cap() => dur pause; // this is the duration between notes
 
 		for (0 => int i; i < freqs.cap(); i++){
+			for (0 => int j; j < freqs.cap(); j++){
+				chords[j].noteOff(1);  // stop playing all notes
+			}
 			freqs[i] => chords[i].freq;
 			theGain => chords[i].gain;
 			chords[i].noteOn(1);
 			pause => now;
+		}
+		for (0 => int j; j < freqs.cap(); j++){
+			chords[j].noteOff(1);  // stop playing all notes
 		}
 	}
 

@@ -8,8 +8,10 @@ public class BassPlayer {
 	1 => int debug;
 
 	// bass notes
-	[29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 34] @=> int bassMelody1[];
-	[bassMelody1] @=> int notes[][];
+	[29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 34] @=> int bassMelody0[];
+	[26,25] @=> int bassMelody1[];
+	// [29, 29, 29, 29, 32, 33, 32]
+	[bassMelody0, bassMelody1] @=> int notes[][];
 
 	// function for the Conductor to get the note for this instrument
 	fun int getNote(int track, int index)

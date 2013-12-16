@@ -1,13 +1,13 @@
 //ChordInstrument.ck
 
-public class ChordInstrument extends BandedWG
+public class ChordInstrument extends ModalBar
 {
 	"CHORD INSTRUMENT:" => string section;
 	1 => int debug;
 	if (debug) { <<< section, "loaing class..." >>>;}
 
 	this => NRev rev => dac;
-	0.1 => rev.mix;
+	0.01 => rev.mix;
 
 
 	fun void cNoteOn (float fr, float ga, float vel)

@@ -112,95 +112,16 @@ public class Drums{
     //      0000 0000 0000 0000 0000 0000 0000 0000
     // bit:31   27   23   19   15   11    7654 3210
 
-    [0x90A, 0x500, 0x7F0, 0x500] @=> int track1[];
+    [0x090A, 0x0500, 0x07F0, 0x0500] @=> int track0[];
+    [0x900A, 0x0000, 0x90F0, 0x0000, 0x900A, 0x000A, 0x90F0, 0x0000] @=> int track1[];
 
-    [track1] @=> int tracks[][];
+    [track0, track1] @=> int tracks[][];
 
     fun int getNote(int track, int index)
     {
         if (debug) { <<< section, "Getting track", track, "index", index >>>;}
         return tracks[track][index % tracks[track].cap()];
     }
-
-    // int kick_ptn[];
-    // int snare_ptn[];
-    // int hh_ptn[];
-
-    // Shred loopChild;
-
-    // fun void playTrack(int track){
-    //     db.flag => debug;
-    //     1 => play; // set flag to play
-    //     if (track <= 0){
-    //         <<< "invalid track (", track, ") returning..." >>>;
-    //         return;
-    //     }
-    //     if (track == 1){ // intro / main?
-    //         if (debug) { <<< section, "setting up track 1" >>>; }
-    //         reset();
-    //     //   1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16 
-    //         [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0] @=> kick_ptn;
-    //         [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0] @=> snare_ptn;
-    //         [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0] @=> hh_ptn;
-    //         spork ~ playLoop();
-    //     }
-    //     else if (track == 2){ // second / verse?
-    //         reset();
-    //         if (debug) { <<< section, "setting up track 2" >>>; }  // this is where we fade out
-    //         //   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
-    //         [1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> kick_ptn;
-    //         [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0] @=> snare_ptn;
-    //         [2, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0] @=> hh_ptn;
-    //         spork ~ playLoop() @=> loopChild;
-    //         spork ~ fadeOut();
-    //     }
-    //     else {
-    //         <<< section, "Kick pattern not set, aborting" >>>;
-    //         me.exit();
-    //     }
-    // }
-
-    // fun void fadeOut(){
-    //     masterR.gain() => float begGain;
-    //     while (play){
-    //         if (debug) { <<< section, "Lowering master gain to", begGain >>>;}
-    //         if (begGain > 0.05){
-    //             0.05 -=> begGain;
-    //         }
-    //         else {
-    //             0 => begGain;
-    //         }
-            
-    //         begGain => masterR.gain => masterL.gain;
-    //         0.2::second => now;
-    //     }
-
-    // }
-
-    // fun void stop()
-    // {
-    //     <<< "stopping drums" >>>;
-    //     0 => play;
-    //     loopChild.exit();  // doesn't seem to work, see below
-    //     //1::ms => now; // let time pass for things to die
-    // }
-
-    //  this doesn't seem to work as expected. Aside from the obvious concurrency race conditions, loopChild.exit() doesn't actually exit the class
-    // until a certain amount of time has passed 
-    // fun void reset(){
-    //     if (debug) { <<< "resetting", section >>>; }
-    //     0::second => dur accrued; // total time accrued
-    //     0 => int beat; // what beat we're on
-    //     -1 => int lastBeat; // keep track if we increment to the next element in the pattern
-    //     0 => int canReset; // prevent endless repositioning if we stay on the same position for a while
-    //     loopChild.exit();
-    //     1::ms => now; // let time pass for things to die
-    // }
-
-    // 0::second => dur accrued; // total time accrued
-    // 0 => int beat; // what beat we're on
-    // -1 => int lastBeat; // keep track if we increment to the next element in the pattern
-    // 0 => int canReset; // prevent endless repositioning if we stay on the same position for a while
 
     EventBroadcaster eb;
 
@@ -211,21 +132,8 @@ public class Drums{
         */
         // get the length of the array easier calcs
         if (debug) { <<< section, "Getting ready to play loop" >>>; }
-        //Math.min(kick_ptn.cap(), Math.min(snare_ptn.cap(), hh_ptn.cap())) $ int => int al; // smallest array length
-        //tempo.wh/al => dur resolution; // resolution, must be <= smallest note, div by array size to make even
-
-        // resettals
-        //0::second => accrued; // total time accrued
-        //0 => beat; // what beat we're on
-        //-1 => lastBeat; // keep track if we increment to the next element in the pattern
-        //0 => canReset; // prevent endless repositioning if we stay on the same position for a while
 
         while ( true ) {
-            // index is the ((accrued / ((wLen/al)::second)) $ int) % al
-            // ((wLen/al)::second)) is the fraction of the array we've been through,
-            // cast to an int to get a valid index (floor of the float), mod by al to loop. 
-            // this allows the time signature to be flexible.
-            // --((accrued / ((tempo.wLen/al)::second)) $ int) % al => beat;
 
             drmEvt => now; // wait
             if (debug) { <<< section, "Event received:", drmEvt.drumByte >>>; }
