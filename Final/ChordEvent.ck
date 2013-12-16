@@ -6,8 +6,7 @@ public class ChordEvent extends Eventful
 	"CHORD EVENT:" => section;
 	if (debug) { <<< section, "loading..." >>>;}
 
-	int arp; // flag to arpeggiate or not
-
+	dur arp; // if we send a signal to arpeggiate, this is how long the arpeggio should last
 	float freqs[];
 	int midiNotes[];
 

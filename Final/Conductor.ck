@@ -26,14 +26,14 @@ ChordPlayer chord;
 // set the tempo
 tempo.setBPM(120);
 
-if (debug) {<<< section, "sporking chords" >>>;}
-spork ~ playChord(0, 4);
-// if (debug) { <<< section, "sporking drums" >>>;}
-// spork ~ playDrums(0, 4);
-// if (debug) { <<< section, "sporking bass" >>>;}
-// spork ~ playBass(0, 5);
+// if (debug) {<<< section, "sporking chords" >>>;}
+// spork ~ playChord(0, 4);
+if (debug) { <<< section, "sporking drums" >>>;}
+spork ~ playDrums(0, 16);
+if (debug) { <<< section, "sporking bass" >>>;}
+spork ~ playBass(0, 16);
 // must let time pass or this dies immediately
-4::second => now;
+tempo.wh*3 => now;
 
 fun void playDrums(int track, int beats)
 {
@@ -48,7 +48,7 @@ fun void playDrums(int track, int beats)
 
 			beat++;
 
-			tempo.qu => now;
+			tempo.ei => now;
 		}
 	}
 	else if (track == 1){
@@ -59,7 +59,7 @@ fun void playDrums(int track, int beats)
 
 fun void playBass(int track, int beats)
 {
-	if (debug) {<<< section, "in playBass, " >>>;}
+	if (debug) {<<< section, "in playBass" >>>;}
 	0 => int note;
 	if (track == 0){
 		repeat (beats)
@@ -81,12 +81,13 @@ fun void playBass(int track, int beats)
 }
 
 fun void playChord(int track, int beats){
-	if (debug) { <<< section, "int playChord" >>>;}
+	if (debug) { <<< section, "in playChord" >>>;}
 	0 => int note;
 	if (track == 0) {
 		repeat (beats){
 			chord.getNotes(0, note) => eb.chord.notes;
 			chord.getGain(0, note) => eb.chord.gain;
+			tempo.qu => eb.chord.arp;
 			eb.chord.signal();
 
 			note++;

@@ -1,6 +1,6 @@
 //ChordInstrument.ck
 
-public class ChordInstrument extends Rhodey
+public class ChordInstrument extends BandedWG
 {
 	"CHORD INSTRUMENT:" => string section;
 	1 => int debug;

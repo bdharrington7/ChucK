@@ -8,7 +8,7 @@ public class BassPlayer {
 	1 => int debug;
 
 	// bass notes
-	[29, 32, 0] @=> int bassMelody1[];
+	[29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 32, 29, 29, 32, 34] @=> int bassMelody1[];
 	[bassMelody1] @=> int notes[][];
 
 	// function for the Conductor to get the note for this instrument
@@ -19,7 +19,7 @@ public class BassPlayer {
 	}
 
 	// gains
-	[.8] @=> float gainTrack1[];
+	[.6] @=> float gainTrack1[];
 	[gainTrack1] @=> float gains[][];
 
 	// function for the Conductor to get the gain for this instruments

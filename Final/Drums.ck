@@ -12,7 +12,7 @@ public class Drums{
     "DRUMS:" => string section;
     1 => int play; // whether the while loop should continue
 
-    0 => int debug;
+    1 => int debug;
 
 
     // load filenames, have to go to parent, then into audio dir
@@ -106,7 +106,13 @@ public class Drums{
 
     // drum tracks
 
-    [0x0F, 0xF0] @=> int track1[];
+    // each section of drums is 4 bits placed in the integer like so:
+    // in a 32-bit int, the bits are
+    //        X    X    X    X   hho  hh  snre kick
+    //      0000 0000 0000 0000 0000 0000 0000 0000
+    // bit:31   27   23   19   15   11    7654 3210
+
+    [0x90A, 0x500, 0x7F0, 0x500] @=> int track1[];
 
     [track1] @=> int tracks[][];
 
@@ -239,9 +245,11 @@ public class Drums{
             ((drmEvt.drumByte & 0xF0) >> 4) / 15. => float snareGain;
             //if (debug) { <<< section, "snareGain:", snareGain >>>;}
 
-            ((drmEvt.drumByte & 0xF0) >> 8) / 15. => float hhGain;  // hihat 
+            ((drmEvt.drumByte & 0xF00) >> 8) / 15. => float hhGain;  // hihat 
+            if (debug) { <<< section, "hhGain:", hhGain >>>;}
 
-            ((drmEvt.drumByte & 0xF0) >> 12) / 15. => float hhoGain;  // hihat open
+            ((drmEvt.drumByte & 0xF000) >> 12) / 15. => float hhoGain;  // hihat open
+            if (debug) { <<< section, "hhoGain:", hhoGain >>>;}
 
             if (kickGain > 0){
                 if (debug) { <<< "=Kick:", kickGain >>>; }

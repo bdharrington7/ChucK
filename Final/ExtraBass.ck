@@ -15,7 +15,8 @@ public class ExtraBass extends HevyMetl
 	this => NRev rev => dac;
 	0.05 => rev.mix;
 	// give some layer to this bass by adding an osc
-	SinOsc osc => dac;
+	SinOsc osc => ADSR env => dac;
+	(30::ms, 30::ms, 0.9, 30::ms) => env.set;
 
 
 	fun void bNoteOn (float fr, float ga, float vel)
@@ -24,6 +25,7 @@ public class ExtraBass extends HevyMetl
 		
 		fr => this.freq => osc.freq;
 		ga => this.gain => osc.gain;
+		1 => env.keyOn;
 		this.noteOn(vel);
 	}
 
@@ -31,8 +33,8 @@ public class ExtraBass extends HevyMetl
 	fun void bNoteOff()
 	{
 		if (debug) { <<< section, "calling noteOff" >>>;}
+		1 => env.keyOff;
 		this.noteOff(1);
-		0 => osc.freq;
-		0 => osc.gain;
+		
 	}
 }

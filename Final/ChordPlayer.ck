@@ -7,7 +7,7 @@ public class ChordPlayer
 	1 => int debug;
 
 	// chord notes TODO change these, 2d array probably
-	[[45, 48, 50],[48, 52, 53]] @=> int chordMelody1[][];
+	[[60, 64, 67],[48, 52, 53]] @=> int chordMelody1[][];
 	[chordMelody1] @=> int notes[][][];
 
 	// function for the Conductor to get the note for this instrument
@@ -50,8 +50,14 @@ public class ChordPlayer
 				// theFreqs => chord.freqs;
 				// theGain => chord.gain;
 				// chord.noteOn(1);
-				for ( 0 => int i; i < theFreqs.cap(); i++){
-					chords[i].cNoteOn(theFreqs[i], theGain, 1.);
+				if (evt.arp > 0::ms){  // play the arpeggio
+					// spork so it doesn't block
+					spork ~ playArp(theFreqs, theGain, evt.arp);
+				}
+				else {  // play a straight chord
+					for ( 0 => int i; i < theFreqs.cap(); i++){
+						chords[i].cNoteOn(theFreqs[i], theGain/theFreqs.cap(), 1.);
+					}
 				}
 				
 			}
@@ -61,5 +67,25 @@ public class ChordPlayer
 				}
 			}
 		}
+	}
+
+	fun void playArp(float freqs[], float theGain, dur split){
+		split / freqs.cap() => dur pause; // this is the duration between notes
+
+		for (0 => int i; i < freqs.cap(); i++){
+			freqs[i] => chords[i].freq;
+			theGain => chords[i].gain;
+			chords[i].noteOn(1);
+			pause => now;
+		}
+	}
+
+	// builds a chord based on:
+	// 1: root note, 2: root scale (1, 2, etc), 3: quality (Major, minor)
+	fun int[] build(string ch){  // builds a chord
+		if (debug) { <<< section, "building chord", ch >>>;}
+		int root; // root midi note
+
+		//if ()
 	}
 }
