@@ -1,8 +1,8 @@
 //Eventful.ck
 /*  Title: The Final Meltdown
-    Author: Anonymous
-    Assignment: 8 - Final
-    Soundcloud link: https://soundcloud.com/coursera_anon_673143250/assignment-8-final
+    Author: Brian Harrington
+    Assignment 8 Final: The Final Storm of Meltdowns
+    Soundcloud link: https://soundcloud.com/destruction_synthesis/song-8-the-final-storm-of
 */
 
 /***
